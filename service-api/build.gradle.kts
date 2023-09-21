@@ -29,13 +29,7 @@ kotlin {
 
     js(IR) { browser() }
 
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
-    }
+    androidTarget()
 
     ios()
 
@@ -51,8 +45,6 @@ kotlin {
 
 android {
     namespace = "dev.kadirkid.rickandmorty.service.api"
-    compileSdk = 34
-    defaultConfig.minSdk = 21
     sourceSets {
         named("main") {
             res.srcDir("src/commonRes")

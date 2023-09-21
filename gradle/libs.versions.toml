@@ -1,20 +1,21 @@
 [versions]
+compileSdk = "34"
+minSdk = "24"
+targetSdk = "33"
+agp = "8.3.0-alpha04"
+kotlin = "1.9.10"
 activity-compose = "1.7.2"
 activity-androidx = "1.7.2"
-agp = "8.3.0-alpha04"
 androidx-material = "1.5.1"
 apollo = "3.8.2"
 coil-compose = "2.4.0"
 foundation = "1.5.1"
-kotlin = "1.9.10"
-ksp = "1.9.10-1.0.13"
 core-ktx = "1.12.0"
 coroutines = "1.7.3"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 appcompat = "1.6.1"
-kotlinx-serialization = "1.6.0"
 kotlinx-datetime = "0.4.1"
 ktor = "2.3.4"
 material = "1.9.0"
@@ -64,7 +65,6 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
-ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
@@ -82,7 +82,6 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
 kotlinx-coroutines-rx = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
 
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -108,11 +107,9 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 jetbrain-compose = { id = "org.jetbrains.compose", version.ref = "compose-jb" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

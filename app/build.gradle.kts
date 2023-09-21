@@ -39,13 +39,7 @@ kotlin {
         binaries.executable()
     }
 
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
-    }
+    androidTarget()
 
     ios()
 
@@ -104,8 +98,6 @@ kotlin {
 
 android {
     namespace = "dev.kadirkid.rickandmorty.app"
-    compileSdk = 34
-    defaultConfig.minSdk = 21
     sourceSets {
         getByName("main") {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -115,30 +107,17 @@ android {
 
     defaultConfig {
         applicationId = "dev.kadirkid.rickandmorty.androidApp"
-        minSdk = 21
-        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }
 
     buildFeatures.compose = true
-    composeOptions.kotlinCompilerExtensionVersion = "1.5.2"
+    composeOptions.kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
 
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
+    packaging.resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        getByName("release").isMinifyEnabled = false
     }
 }
 

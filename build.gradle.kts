@@ -20,6 +20,7 @@ import com.android.build.api.dsl.LibraryDefaultConfig
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import kotlin.reflect.KProperty
@@ -29,7 +30,6 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
-    alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.jetbrain.compose) apply false
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.apollo) apply false
@@ -40,6 +40,8 @@ plugins {
 
 subprojects {
     afterEvaluate { apply(plugin = "rickandmorty.spotless") }
+    kotlinSetup()
+    androidSetup()
     jvmTargetConventionSetup()
 }
 
@@ -68,6 +70,41 @@ fun Project.jvmTargetConventionSetup() {
             sourceCompatibility = target
             targetCompatibility = target
         }
+    }
+}
+
+fun Project.androidSetup() {
+    pluginManager.withAnyPlugin("android-library") {
+        configure<BaseExtension> {
+
+            defaultConfig {
+                consumerProguardFile("src/androidMain/proguard-rules.pro")
+            }
+            disableBuildConfig()
+        }
+    }
+
+
+    pluginManager.withAnyAndroidPlugin {
+        android {
+            compileSdk = libs.versions.compileSdk.get().toInt()
+            defaultConfig {
+                minSdk = libs.versions.minSdk.get().toInt()
+                targetSdk = libs.versions.targetSdk.get().toInt()
+            }
+            sourceSets.addKotlinDirectories()
+        }
+    }
+}
+
+fun Project.kotlinSetup() {
+    tasks.withType<KotlinCompile<*>>().configureEach {
+        if (this is KotlinJvmCompile)
+            kotlinOptions {
+                freeCompilerArgs = freeCompilerArgs.toMutableList().apply {
+                    add("-Xjvm-default=all")
+                }
+            }
     }
 }
 
