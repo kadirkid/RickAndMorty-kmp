@@ -26,8 +26,17 @@ compose-jb = "1.5.0"
 koin = "3.5.0"
 koinCompose = "3.4.6"
 poko = "0.15.0"
+spotless = "6.21.0"
+jvm = "17"
+jvmTarget = "11" # R8 Java 17 support pending, https://issuetracker.google.com/issues/227160052
+ktlint = "0.50.0"
 
 [libraries]
+# Dependencies of the included build-logic
+gradle-android = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+gradle-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+gradle-spotless = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidx-material" }
@@ -106,3 +115,4 @@ jetbrain-compose = { id = "org.jetbrains.compose", version.ref = "compose-jb" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
 poko = { id = "dev.drewhamilton.poko", version.ref = "poko" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
