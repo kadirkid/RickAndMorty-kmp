@@ -1,3 +1,18 @@
+/**
+ * Copyright 2023 Abdulahi Osoble
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.kadirkid.rickandmorty.service
 
 import com.apollographql.apollo3.api.ApolloResponse
@@ -37,12 +52,11 @@ internal fun CharacterQuery.Character.toUniversalCharacter(): UniversalCharacter
                 id = episode.id,
                 name = episode.name,
                 airDate = episode.air_date,
-                episode = episode.episode
+                episode = episode.episode,
             )
         },
     )
 }
-
 
 internal fun List<AllCharactersQuery.Result?>.mapToSimpleCharacter(): List<SimpleCharacter> =
     mapNotNull { result ->
@@ -58,6 +72,6 @@ internal fun List<AllCharactersQuery.Result?>.mapToSimpleCharacter(): List<Simpl
             },
             image = result.image,
             origin = result.origin?.let { SimpleLocation(it.name) },
-            lastKnownLocation = result.location?.let { SimpleLocation(it.name) }
+            lastKnownLocation = result.location?.let { SimpleLocation(it.name) },
         )
     }

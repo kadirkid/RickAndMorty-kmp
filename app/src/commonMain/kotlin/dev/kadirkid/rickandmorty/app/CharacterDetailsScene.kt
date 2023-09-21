@@ -1,3 +1,18 @@
+/**
+ * Copyright 2023 Abdulahi Osoble
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.kadirkid.rickandmorty.app
 
 import androidx.compose.foundation.background
@@ -27,7 +42,7 @@ import dev.kadirkid.rickandmorty.service.api.UniversalCharacter
 internal fun CharacterDetails(
     characterViewModel: CharacterViewModel,
     character: SimpleCharacter,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
         when (val state = characterViewModel.state.collectAsState().value) {
@@ -37,12 +52,12 @@ internal fun CharacterDetails(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.Red)
+                        .background(Color.Red),
                 ) {
                     Text(
                         text = state.message,
                         color = LocalTextColors.current.primary.color,
-                        fontSize = TypographyToken.Headline.Large.textStyle.fontSize
+                        fontSize = TypographyToken.Headline.Large.textStyle.fontSize,
                     )
                 }
             }
@@ -53,11 +68,11 @@ internal fun CharacterDetails(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.Blue)
+                        .background(Color.Blue),
                 ) {
                     CircularProgressIndicator(
                         modifier = Modifier
-                            .padding(16.dp)
+                            .padding(16.dp),
                     )
                 }
             }
@@ -66,7 +81,7 @@ internal fun CharacterDetails(
                 FullCharacterScreen(
                     character = state.characters,
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxSize(),
                 )
             }
         }
@@ -82,7 +97,7 @@ private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifie
     Column(
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
         character.image?.let {
             AsyncImage(
@@ -91,7 +106,7 @@ private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifie
                 size = SizeToken.XXXXX_LARGE,
                 modifier = Modifier
                     .padding(16.dp)
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
             )
         }
 
@@ -100,7 +115,7 @@ private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifie
                 text = it,
                 color = LocalTextColors.current.primary.color,
                 fontSize = TypographyToken.Headline.Large.textStyle.fontSize,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                modifier = Modifier.align(Alignment.CenterHorizontally),
             )
         }
 
@@ -111,7 +126,7 @@ private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifie
                 fontSize = TypographyToken.Headline.Small.textStyle.fontSize,
                 modifier = Modifier
                     .padding(8.dp)
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
             )
         }
 
@@ -122,7 +137,7 @@ private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifie
                 fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
                 modifier = Modifier
                     .padding(8.dp)
-                    .align(Alignment.Start)
+                    .align(Alignment.Start),
             )
         }
 
@@ -133,7 +148,7 @@ private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifie
                 fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
                 modifier = Modifier
                     .padding(8.dp)
-                    .align(Alignment.Start)
+                    .align(Alignment.Start),
             )
         }
         Text(
@@ -142,7 +157,7 @@ private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifie
             fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
             modifier = Modifier
                 .padding(8.dp)
-                .align(Alignment.Start)
+                .align(Alignment.Start),
         )
         character.lastKnownLocation?.let {
             Text(
@@ -151,7 +166,7 @@ private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifie
                 fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
                 modifier = Modifier
                     .padding(8.dp)
-                    .align(Alignment.Start)
+                    .align(Alignment.Start),
             )
         }
     }

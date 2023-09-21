@@ -1,3 +1,18 @@
+/**
+ * Copyright 2023 Abdulahi Osoble
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.kadirkid.rickandmorty.design.core.color
 
 import androidx.compose.runtime.Immutable
@@ -18,7 +33,7 @@ class TextColors internal constructor(
     val primary: TextColor,
     val secondary: TextColor,
     val tertiary: TextColor,
-    val primaryInverse: TextColor
+    val primaryInverse: TextColor,
 )
 
 val LocalTextColors: ProvidableCompositionLocal<TextColors> =
@@ -28,14 +43,14 @@ internal fun lightTextColors(): TextColors = TextColors(
     primary = TextColor(md_theme_light_primary),
     secondary = TextColor(md_theme_light_secondary),
     tertiary = TextColor(md_theme_light_tertiary),
-    primaryInverse = TextColor(md_theme_light_inversePrimary)
+    primaryInverse = TextColor(md_theme_light_inversePrimary),
 )
 
 internal fun darkTextColors(): TextColors = TextColors(
     primary = TextColor(md_theme_dark_primary),
     secondary = TextColor(md_theme_dark_secondary),
     tertiary = TextColor(md_theme_dark_tertiary),
-    primaryInverse = TextColor(md_theme_dark_inversePrimary)
+    primaryInverse = TextColor(md_theme_dark_inversePrimary),
 )
 
 fun TextColors.withNames() = buildList {

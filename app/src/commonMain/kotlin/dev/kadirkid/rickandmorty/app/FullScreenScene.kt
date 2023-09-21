@@ -1,17 +1,30 @@
+/**
+ * Copyright 2023 Abdulahi Osoble
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.kadirkid.rickandmorty.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -42,7 +55,7 @@ import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 public fun FullScreenScene(
     mainViewModel: MainViewModel,
     characterViewModel: CharacterViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Surface(modifier = modifier.fillMaxSize()) {
         Column {
@@ -50,7 +63,7 @@ public fun FullScreenScene(
                 onClick = { mainViewModel.reload() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(20.dp)
+                    .padding(20.dp),
             ) { Text(text = "Refresh") }
             Spacer(modifier = Modifier.size(8.dp))
             when (val state = mainViewModel.state.collectAsState().value) {
@@ -58,7 +71,7 @@ public fun FullScreenScene(
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
                     ) {
                         Text(text = state.message, fontSize = 64.sp)
                     }
@@ -68,11 +81,11 @@ public fun FullScreenScene(
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
                     ) {
                         CircularProgressIndicator(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(16.dp),
                         )
                     }
                 }
@@ -81,7 +94,7 @@ public fun FullScreenScene(
                     DividedScreen(
                         characterViewModel = characterViewModel,
                         characters = state.characters,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
                     )
                 }
             }
@@ -93,7 +106,7 @@ public fun FullScreenScene(
 private fun DividedScreen(
     characterViewModel: CharacterViewModel,
     characters: List<SimpleCharacter>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var selectedCharacter by remember { mutableStateOf(characters[0]) }
 
@@ -112,14 +125,14 @@ private fun DividedScreen(
                             val newPlaceable = measurable.measure(
                                 constraints.copy(
                                     minWidth = largestWidth,
-                                    maxWidth = largestWidth
-                                )
+                                    maxWidth = largestWidth,
+                                ),
                             )
                             layout(newPlaceable.width, newPlaceable.height) {
                                 newPlaceable.place(0, 0)
                             }
                         }
-                        .clickable { selectedCharacter = it }
+                        .clickable { selectedCharacter = it },
                 )
             }
         }
@@ -128,7 +141,7 @@ private fun DividedScreen(
                 .width(1.dp)
                 .weight(weight = 1f, fill = false)
                 .fillMaxHeight()
-                .background(color = LocalBackgroundColors.current.primary.color)
+                .background(color = LocalBackgroundColors.current.primary.color),
         )
         CharacterDetails(
             characterViewModel = characterViewModel,
@@ -136,7 +149,7 @@ private fun DividedScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
-                .padding(top = 16.dp)
+                .padding(top = 16.dp),
         )
     }
 }

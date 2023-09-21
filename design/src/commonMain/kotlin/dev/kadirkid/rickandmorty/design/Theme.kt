@@ -1,3 +1,18 @@
+/**
+ * Copyright 2023 Abdulahi Osoble
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.kadirkid.rickandmorty.design
 
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -25,7 +40,7 @@ private val typography = Typography(
     bodySmall = TypographyToken.Body.Small.textStyle,
     labelLarge = TypographyToken.Label.Large.textStyle,
     labelMedium = TypographyToken.Label.Medium.textStyle,
-    labelSmall = TypographyToken.Label.Small.textStyle
+    labelSmall = TypographyToken.Label.Small.textStyle,
 )
 
 private val LocalThemeAlreadyApplied = compositionLocalOf { false }
@@ -33,9 +48,8 @@ private val LocalThemeAlreadyApplied = compositionLocalOf { false }
 @Composable
 fun RickAndMortyTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
-
     if (LocalThemeAlreadyApplied.current) {
         content()
     } else {
@@ -50,7 +64,7 @@ fun RickAndMortyTheme(
             MaterialTheme(
                 colorScheme = materialColors,
                 typography = typography,
-                content = content
+                content = content,
             )
         }
     }

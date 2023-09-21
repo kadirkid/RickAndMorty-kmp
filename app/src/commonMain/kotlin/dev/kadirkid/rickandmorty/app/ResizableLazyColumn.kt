@@ -1,3 +1,18 @@
+/**
+ * Copyright 2023 Abdulahi Osoble
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.kadirkid.rickandmorty.app
 
 import androidx.compose.runtime.Composable
@@ -15,11 +30,11 @@ internal fun ResizeWidthColumn(modifier: Modifier, resize: Boolean, mainContent:
             it.measure(Constraints())
         }
 
-        //Here we find the max width/height of the child Composables
+        // Here we find the max width/height of the child Composables
         val maxSize = mainPlaceables.fold(IntSize.Zero) { currentMax, placeable ->
             IntSize(
                 width = maxOf(currentMax.width, placeable.width),
-                height = maxOf(currentMax.height, placeable.height)
+                height = maxOf(currentMax.height, placeable.height),
             )
         }
 
@@ -31,8 +46,8 @@ internal fun ResizeWidthColumn(modifier: Modifier, resize: Boolean, mainContent:
                      */
                     it.measure(
                         Constraints(
-                            minWidth = maxSize.width
-                        )
+                            minWidth = maxSize.width,
+                        ),
                     )
                 } else {
                     // Ask the child for its preferred size.
@@ -56,5 +71,5 @@ internal fun ResizeWidthColumn(modifier: Modifier, resize: Boolean, mainContent:
 
 internal enum class SlotsEnum {
     Main,
-    Dependent
+    Dependent,
 }

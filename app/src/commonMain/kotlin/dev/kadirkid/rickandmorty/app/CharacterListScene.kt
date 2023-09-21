@@ -1,3 +1,18 @@
+/**
+ * Copyright 2023 Abdulahi Osoble
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.kadirkid.rickandmorty.app
 
 import androidx.compose.foundation.Canvas
@@ -47,18 +62,18 @@ import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 @Composable
 internal fun CharacterListScene(
     viewModel: MainViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = MaterialTheme.colorScheme.background,
     ) {
         Column {
             Button(
                 onClick = { viewModel.reload() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(20.dp)
+                    .padding(20.dp),
             ) { Text(text = "Refresh") }
             Spacer(modifier = Modifier.size(8.dp))
             when (val state = viewModel.state.collectAsState().value) {
@@ -66,7 +81,7 @@ internal fun CharacterListScene(
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
                     ) {
                         Text(text = state.message, fontSize = 64.sp)
                     }
@@ -76,11 +91,11 @@ internal fun CharacterListScene(
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
                     ) {
                         CircularProgressIndicator(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(16.dp),
                         )
                     }
                 }
@@ -88,7 +103,7 @@ internal fun CharacterListScene(
                 is MainState.Success -> {
                     var largestWidth by remember { mutableStateOf(0) }
                     LazyColumn(
-                        modifier = Modifier.padding(vertical = 8.dp)
+                        modifier = Modifier.padding(vertical = 8.dp),
                     ) {
                         items(state.characters) {
                             CharacterCard(
@@ -101,7 +116,7 @@ internal fun CharacterListScene(
                                         layout(largestWidth, placeable.height) {
                                             placeable.place(0, 0)
                                         }
-                                    }
+                                    },
                             )
                         }
                     }
@@ -156,11 +171,11 @@ internal fun CharacterCard(character: SimpleCharacter, modifier: Modifier = Modi
     Card(
         modifier = modifier
             .heightIn(max = 200.dp)
-            .clickable { /* TODO */ }
+            .clickable { /* TODO */ },
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             character.image?.ImageContent()
             character.InfoContent()
@@ -176,7 +191,7 @@ private fun String.ImageContent(modifier: Modifier = Modifier) {
         size = SizeToken.X_LARGE,
         modifier = modifier
             .width(170.dp)
-            .fillMaxHeight()
+            .fillMaxHeight(),
 //            .heightIn(max = 140.dp)
 //            .widthIn(max = 140.dp)
 //            .aspectRatio(1f),
@@ -207,7 +222,7 @@ private fun SimpleCharacter.InfoContent(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxSize()
             .background(color = Color.Black.copy(alpha = 0.2f))
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         name?.let { Text(text = it, fontSize = 24.sp) }
         status?.Content()
@@ -232,7 +247,7 @@ private fun CharacterStatus.Content(modifier: Modifier = Modifier) {
     }
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Canvas(modifier = modifier) {
             drawCircle(color = color, radius = 4.dp.toPx())

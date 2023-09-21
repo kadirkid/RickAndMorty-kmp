@@ -1,3 +1,18 @@
+/**
+ * Copyright 2023 Abdulahi Osoble
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.kadirkid.rickandmorty.core.main
 
 import com.apollographql.apollo3.exception.ApolloCompositeException
@@ -18,7 +33,7 @@ public interface MainViewModel {
 
 internal class MainViewModelImpl(
     private val getCharactersUseCase: GetCharactersUseCase,
-    private val mainScope: CoroutineScope
+    private val mainScope: CoroutineScope,
 ) : MainViewModel {
     private val _state = MutableStateFlow<MainState>(MainState.Loading)
     override val state: StateFlow<MainState> = _state.asStateFlow()

@@ -1,3 +1,18 @@
+/**
+ * Copyright 2023 Abdulahi Osoble
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.kadirkid.rickandmorty.design.core
 
 import androidx.compose.ui.text.PlatformTextStyle
@@ -25,7 +40,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 40.0.sp,
                 letterSpacing = 0.sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
 
         data object Medium : Headline(
@@ -37,7 +52,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 36.sp,
                 letterSpacing = 0.sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
 
         data object Small : Headline(
@@ -49,7 +64,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 32.sp,
                 letterSpacing = 0.sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
     }
 
@@ -63,7 +78,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 28.sp,
                 letterSpacing = 0.sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
 
         data object Medium : Title(
@@ -75,7 +90,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 24.sp,
                 letterSpacing = .2.sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
 
         data object Small : Title(
@@ -87,7 +102,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 20.sp,
                 letterSpacing = .1.sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
     }
 
@@ -101,7 +116,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 24.sp,
                 letterSpacing = (-0.25).sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
 
         data object Medium : Body(
@@ -113,7 +128,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 24.sp,
                 letterSpacing = (-0.25).sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
 
         data object Small : Body(
@@ -139,7 +154,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 20.sp,
                 letterSpacing = .1.sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
 
         data object Medium : Label(
@@ -151,7 +166,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 16.sp,
                 letterSpacing = .5.sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
 
         data object Small : Label(
@@ -163,7 +178,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 lineHeight = 16.sp,
                 letterSpacing = .5.sp,
                 platformStyle = DefaultPlatformTextStyle,
-            )
+            ),
         )
     }
 
@@ -181,7 +196,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
                 Body.Small,
                 Label.Large,
                 Label.Medium,
-                Label.Small
+                Label.Small,
             )
         }
     }
