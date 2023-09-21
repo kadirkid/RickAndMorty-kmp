@@ -24,7 +24,7 @@ import dev.kadirkid.rickandmorty.design.core.SizeToken
 import coil.compose.AsyncImage as CoilAsyncImage
 
 @Composable
-actual fun AsyncImage(
+public actual fun AsyncImage(
     url: String,
     contentDescription: String,
     size: SizeToken,

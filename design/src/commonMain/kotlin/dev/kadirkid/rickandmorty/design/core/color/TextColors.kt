@@ -29,14 +29,14 @@ import dev.kadirkid.rickandmorty.design.md_theme_light_secondary
 import dev.kadirkid.rickandmorty.design.md_theme_light_tertiary
 
 @Immutable
-class TextColors internal constructor(
-    val primary: TextColor,
-    val secondary: TextColor,
-    val tertiary: TextColor,
-    val primaryInverse: TextColor,
+public class TextColors internal constructor(
+    public val primary: TextColor,
+    public val secondary: TextColor,
+    public val tertiary: TextColor,
+    public val primaryInverse: TextColor,
 )
 
-val LocalTextColors: ProvidableCompositionLocal<TextColors> =
+public val LocalTextColors: ProvidableCompositionLocal<TextColors> =
     staticCompositionLocalOf { error("No TextColors provided") }
 
 internal fun lightTextColors(): TextColors = TextColors(
@@ -53,7 +53,7 @@ internal fun darkTextColors(): TextColors = TextColors(
     primaryInverse = TextColor(md_theme_dark_inversePrimary),
 )
 
-fun TextColors.withNames() = buildList {
+internal fun TextColors.withNames() = buildList {
     add(Pair("primary", primary))
     add(Pair("secondary", secondary))
     add(Pair("tertiary", tertiary))

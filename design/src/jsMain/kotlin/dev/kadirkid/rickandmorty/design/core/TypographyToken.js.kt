@@ -23,7 +23,7 @@ import org.jetbrains.skiko.loadBytesFromPath
 
 private var InterFontFamily: FontFamily = FontFamily.Default
 
-suspend fun initializeFonts() {
+public suspend fun initializeFonts() {
     InterFontFamily = loadInterFont()
 }
 

@@ -46,7 +46,7 @@ private val typography = Typography(
 private val LocalThemeAlreadyApplied = compositionLocalOf { false }
 
 @Composable
-fun RickAndMortyTheme(
+public fun RickAndMortyTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {

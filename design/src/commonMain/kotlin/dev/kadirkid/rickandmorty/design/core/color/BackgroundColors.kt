@@ -35,17 +35,17 @@ import dev.kadirkid.rickandmorty.design.md_theme_light_secondaryContainer
 import dev.kadirkid.rickandmorty.design.md_theme_light_tertiaryContainer
 
 @Immutable
-class BackgroundColors internal constructor(
-    val primary: BackgroundColor,
-    val secondary: BackgroundColor,
-    val tertiary: BackgroundColor,
-    val onPrimary: BackgroundColor,
-    val onSecondary: BackgroundColor,
-    val onTertiary: BackgroundColor,
-    val error: BackgroundColor,
+public class BackgroundColors internal constructor(
+    public val primary: BackgroundColor,
+    public val secondary: BackgroundColor,
+    public val tertiary: BackgroundColor,
+    public val onPrimary: BackgroundColor,
+    public val onSecondary: BackgroundColor,
+    public val onTertiary: BackgroundColor,
+    public val error: BackgroundColor,
 )
 
-val LocalBackgroundColors: ProvidableCompositionLocal<BackgroundColors> =
+public val LocalBackgroundColors: ProvidableCompositionLocal<BackgroundColors> =
     staticCompositionLocalOf { error("No BackgroundColors provided") }
 
 internal fun lightBackgroundColors(): BackgroundColors = BackgroundColors(
@@ -68,7 +68,7 @@ internal fun darkBackgroundColors(): BackgroundColors = BackgroundColors(
     error = BackgroundColor(md_theme_dark_errorContainer),
 )
 
-fun BackgroundColors.withNames() = buildList {
+internal fun BackgroundColors.withNames() = buildList {
     add("primary" to primary)
     add("secondary" to secondary)
     add("tertiary" to tertiary)

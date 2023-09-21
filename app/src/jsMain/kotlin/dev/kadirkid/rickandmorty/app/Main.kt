@@ -22,6 +22,7 @@ import dev.kadirkid.rickandmorty.core.character.CharacterViewModel
 import dev.kadirkid.rickandmorty.core.di.initKoin
 import dev.kadirkid.rickandmorty.core.main.MainViewModel
 import dev.kadirkid.rickandmorty.design.RickAndMortyTheme
+import dev.kadirkid.rickandmorty.design.core.initializeFonts
 import org.jetbrains.skiko.wasm.onWasmReady
 import org.koin.core.logger.Level
 import org.koin.core.logger.Logger
@@ -44,6 +45,7 @@ public fun main() {
 
     onWasmReady {
         CanvasBasedWindow {
+            LaunchedEffect(Unit) { initializeFonts() }
             RickAndMortyTheme { FullScreenScene(mainViewModel, characterViewModel) }
             LaunchedEffect(Unit) { mainViewModel.fetch() }
         }

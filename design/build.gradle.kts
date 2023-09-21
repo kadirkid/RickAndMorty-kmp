@@ -27,6 +27,7 @@ compose {
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     targetHierarchy.default()
+    explicitApi()
 
     jvm("desktop")
 

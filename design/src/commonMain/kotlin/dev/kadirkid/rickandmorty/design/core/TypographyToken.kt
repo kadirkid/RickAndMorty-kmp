@@ -29,9 +29,9 @@ private inline val DefaultFontFamily: FontFamily get() = fontFamily
 
 private inline val DefaultPlatformTextStyle: PlatformTextStyle get() = platformTextStyle
 
-sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
-    sealed class Headline(name: String, textStyle: TextStyle) : TypographyToken(name, textStyle) {
-        data object Large : Headline(
+public sealed class TypographyToken(internal val name: String, public val textStyle: TextStyle) {
+    public sealed class Headline(name: String, textStyle: TextStyle) : TypographyToken(name, textStyle) {
+        public data object Large : Headline(
             name = "Headline.Large",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -43,7 +43,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
             ),
         )
 
-        data object Medium : Headline(
+        public data object Medium : Headline(
             name = "Headline.Medium",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -55,7 +55,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
             ),
         )
 
-        data object Small : Headline(
+        public data object Small : Headline(
             name = "Headline.Small",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -68,8 +68,8 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
         )
     }
 
-    sealed class Title(name: String, textStyle: TextStyle) : TypographyToken(name, textStyle) {
-        data object Large : Title(
+    public sealed class Title(name: String, textStyle: TextStyle) : TypographyToken(name, textStyle) {
+        public data object Large : Title(
             name = "Title.Large",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -81,7 +81,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
             ),
         )
 
-        data object Medium : Title(
+        public data object Medium : Title(
             name = "Title.Medium",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -93,7 +93,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
             ),
         )
 
-        data object Small : Title(
+        public data object Small : Title(
             name = "Title.Small",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -106,8 +106,8 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
         )
     }
 
-    sealed class Body(name: String, textStyle: TextStyle) : TypographyToken(name, textStyle) {
-        data object Large : Body(
+    public sealed class Body(name: String, textStyle: TextStyle) : TypographyToken(name, textStyle) {
+        public data object Large : Body(
             name = "Body.Large",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -119,7 +119,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
             ),
         )
 
-        data object Medium : Body(
+        public data object Medium : Body(
             name = "Body.Medium",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -131,7 +131,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
             ),
         )
 
-        data object Small : Body(
+        public data object Small : Body(
             name = "Body.Small",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -144,8 +144,8 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
         )
     }
 
-    sealed class Label(name: String, textStyle: TextStyle) : TypographyToken(name, textStyle) {
-        data object Large : Label(
+    public sealed class Label(name: String, textStyle: TextStyle) : TypographyToken(name, textStyle) {
+        public data object Large : Label(
             name = "Label.Large",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -157,7 +157,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
             ),
         )
 
-        data object Medium : Label(
+        public data object Medium : Label(
             name = "Label.Medium",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -169,7 +169,7 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
             ),
         )
 
-        data object Small : Label(
+        public data object Small : Label(
             name = "Label.Small",
             textStyle = TextStyle(
                 fontFamily = DefaultFontFamily,
@@ -182,8 +182,8 @@ sealed class TypographyToken(val name: String, val textStyle: TextStyle) {
         )
     }
 
-    companion object {
-        val values by lazy {
+    public companion object {
+        public val values: List<TypographyToken> by lazy {
             listOf(
                 Headline.Large,
                 Headline.Medium,

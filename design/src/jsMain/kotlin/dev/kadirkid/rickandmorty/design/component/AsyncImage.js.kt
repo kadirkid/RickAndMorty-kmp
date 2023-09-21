@@ -35,7 +35,7 @@ import org.jetbrains.skia.Image
 private val httpClient = HttpClient(JsClient())
 
 @Composable
-actual fun AsyncImage(
+public actual fun AsyncImage(
     url: String,
     contentDescription: String,
     size: SizeToken,

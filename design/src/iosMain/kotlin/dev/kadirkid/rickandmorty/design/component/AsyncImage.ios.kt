@@ -34,7 +34,7 @@ import kotlinx.coroutines.withContext
 private val httpClient = HttpClient(Darwin)
 
 @Composable
-actual fun AsyncImage(
+public actual fun AsyncImage(
     url: String,
     contentDescription: String,
     size: SizeToken,

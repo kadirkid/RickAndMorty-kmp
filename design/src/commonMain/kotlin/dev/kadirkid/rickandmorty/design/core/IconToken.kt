@@ -29,7 +29,7 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
-enum class IconToken(val image: ImageVector) {
+public enum class IconToken(public val image: ImageVector) {
     HOME(Icons.Default.Home),
     ADD(Icons.Default.Add),
     DELETE(Icons.Default.Delete),
