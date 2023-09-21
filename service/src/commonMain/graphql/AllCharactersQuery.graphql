@@ -1,0 +1,23 @@
+query AllCharacters {
+    characters {
+        info {
+            count
+            pages
+            next
+            prev
+        }
+        results {
+            id
+            name
+            gender
+            status
+            image
+            origin {
+                name
+            }
+            location {
+                name
+            }
+        }
+    }
+}
