@@ -11,6 +11,9 @@
 # Rick and Morty 
 A sample KMP project using Rick and Morty API
 
+## Screenshots
+<img src="screenshots/desktop.png" alt="">
+
 ## Tech Stack
 - [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html)
 - [Ktor](https://ktor.io/)
