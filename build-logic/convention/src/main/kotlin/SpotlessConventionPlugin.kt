@@ -28,7 +28,7 @@ class SpotlessConventionPlugin : Plugin<Project> {
             extensions.configure<SpotlessExtension> {
                 kotlin {
                     target("**/*.kt")
-                    targetExclude("$buildDir/**/*.kt", "**/copyright.kt", "**/build/**")
+                    targetExclude("${layout.buildDirectory}/**/*.kt", "**/copyright.kt", "**/build/**")
                     ktlint(libs.findVersion("ktlint").get().toString())
                     licenseHeaderFile(rootProject.file("$rootDir/spotless/copyright.kt"))
                     trimTrailingWhitespace()
@@ -36,7 +36,7 @@ class SpotlessConventionPlugin : Plugin<Project> {
                 }
                 format("kts") {
                     target("**/*.kts")
-                    targetExclude("$buildDir/**/*.kts", "**/copyright.kts", "**/build/**")
+                    targetExclude("${layout.buildDirectory}/**/*.kts", "**/copyright.kts", "**/build/**")
                     // Look for the first line that doesn't have a block comment (assumed to be the license)
                     licenseHeaderFile(rootProject.file("spotless/copyright.kts"), "(^(?![\\/ ]\\*).*$)")
                 }
