@@ -17,7 +17,6 @@ package dev.kadirkid.rickandmorty.app
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -181,7 +180,7 @@ internal fun StatusItem(statusType: String, value: String, modifier: Modifier = 
     Row(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.border(2.dp, LocalBackgroundColors.current.error.color),
+        modifier = modifier,
     ) {
         Text(
             text = "$statusType:",

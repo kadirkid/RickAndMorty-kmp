@@ -45,7 +45,7 @@ public fun main() {
     application {
         Window(
             state = rememberWindowState(size = DpSize(1280.dp, 800.dp)),
-            title = "SDUI Demo",
+            title = "Rick and Morty",
             onCloseRequest = ::exitApplication,
         ) {
             RickAndMortyTheme { FullScreenScene(mainViewModel, characterViewModel) }
