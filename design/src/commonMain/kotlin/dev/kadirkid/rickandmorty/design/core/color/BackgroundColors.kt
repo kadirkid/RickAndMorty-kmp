@@ -25,6 +25,7 @@ import dev.kadirkid.rickandmorty.design.md_theme_dark_onSecondaryContainer
 import dev.kadirkid.rickandmorty.design.md_theme_dark_onTertiaryContainer
 import dev.kadirkid.rickandmorty.design.md_theme_dark_primaryContainer
 import dev.kadirkid.rickandmorty.design.md_theme_dark_secondaryContainer
+import dev.kadirkid.rickandmorty.design.md_theme_dark_surface
 import dev.kadirkid.rickandmorty.design.md_theme_dark_tertiaryContainer
 import dev.kadirkid.rickandmorty.design.md_theme_light_errorContainer
 import dev.kadirkid.rickandmorty.design.md_theme_light_onPrimaryContainer
@@ -32,6 +33,7 @@ import dev.kadirkid.rickandmorty.design.md_theme_light_onSecondaryContainer
 import dev.kadirkid.rickandmorty.design.md_theme_light_onTertiaryContainer
 import dev.kadirkid.rickandmorty.design.md_theme_light_primaryContainer
 import dev.kadirkid.rickandmorty.design.md_theme_light_secondaryContainer
+import dev.kadirkid.rickandmorty.design.md_theme_light_surface
 import dev.kadirkid.rickandmorty.design.md_theme_light_tertiaryContainer
 
 @Immutable
@@ -42,6 +44,7 @@ public class BackgroundColors internal constructor(
     public val onPrimary: BackgroundColor,
     public val onSecondary: BackgroundColor,
     public val onTertiary: BackgroundColor,
+    public val surface: BackgroundColor,
     public val error: BackgroundColor,
 )
 
@@ -55,6 +58,7 @@ internal fun lightBackgroundColors(): BackgroundColors = BackgroundColors(
     onPrimary = BackgroundColor(md_theme_light_onPrimaryContainer),
     onSecondary = BackgroundColor(md_theme_light_onSecondaryContainer),
     onTertiary = BackgroundColor(md_theme_light_onTertiaryContainer),
+    surface = BackgroundColor(md_theme_light_surface),
     error = BackgroundColor(md_theme_light_errorContainer),
 )
 
@@ -65,6 +69,7 @@ internal fun darkBackgroundColors(): BackgroundColors = BackgroundColors(
     onPrimary = BackgroundColor(md_theme_dark_onPrimaryContainer),
     onSecondary = BackgroundColor(md_theme_dark_onSecondaryContainer),
     onTertiary = BackgroundColor(md_theme_dark_onTertiaryContainer),
+    surface = BackgroundColor(md_theme_dark_surface),
     error = BackgroundColor(md_theme_dark_errorContainer),
 )
 

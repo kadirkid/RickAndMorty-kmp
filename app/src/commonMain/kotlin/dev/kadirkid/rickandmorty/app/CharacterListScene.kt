@@ -112,7 +112,8 @@ internal fun CharacterListScene(
                                     .padding(8.dp)
                                     .layout { measurable, constraints ->
                                         val placeable = measurable.measure(constraints)
-                                        if (placeable.width > largestWidth) largestWidth = placeable.width
+                                        if (placeable.width > largestWidth) largestWidth =
+                                            placeable.width
                                         layout(largestWidth, placeable.height) {
                                             placeable.place(0, 0)
                                         }
@@ -128,46 +129,6 @@ internal fun CharacterListScene(
 
 @Composable
 internal fun CharacterCard(character: SimpleCharacter, modifier: Modifier = Modifier) {
-//    val movementSpec = SpringSpec<IntOffset>(
-//        dampingRatio = Spring.DampingRatioMediumBouncy,
-//        stiffness = 200f
-//    )
-//    var isTransformed by rememberSaveable { mutableStateOf(false) }
-//    val size = animateSizeAsState(
-//        targetValue = if (isTransformed) {
-//            Size(width = 200f, height = 400f)
-//        } else {
-//            Size(width = 84f, height = 84f)
-//        },
-//        label = ""
-//    )
-
-//    Orbital(modifier = Modifier.clickable { isTransformed = !isTransformed }) {
-//        if (isTransformed) {
-//            Column(
-//                verticalArrangement = Arrangement.Center,
-//                horizontalAlignment = Alignment.Start
-//            ) {
-//                character.image?.ImageContent(
-//                    modifier = Modifier.size(width = size.value.width.dp, height = size.value.height.dp)
-//                )
-//                character.InfoContent(showFullContent = isTransformed)
-//            }
-//        } else {
-//            Card(modifier = modifier) {
-//                Column(
-//                    verticalArrangement = Arrangement.Center,
-//                    horizontalAlignment = Alignment.Start
-//                ) {
-//                    character.image?.ImageContent(
-//                        modifier = Modifier.size(width = size.value.width.dp, height = size.value.height.dp)
-//                    )
-//                    character.InfoContent(showFullContent = isTransformed)
-//                }
-//            }
-//        }
-//    }
-
     Card(
         modifier = modifier
             .heightIn(max = 200.dp)
@@ -192,26 +153,7 @@ private fun String.ImageContent(modifier: Modifier = Modifier) {
         modifier = modifier
             .width(170.dp)
             .fillMaxHeight(),
-//            .heightIn(max = 140.dp)
-//            .widthIn(max = 140.dp)
-//            .aspectRatio(1f),
     )
-//    CoilImage(
-//        imageRequest = {
-//            ImageRequest.Builder(context)
-//                .data(this)
-//                .lifecycle(lifecycleOwner)
-//                .scale(Scale.FILL)
-//                .build()
-//        },
-//        imageOptions = ImageOptions(
-//            contentDescription = "Character Image",
-//            contentScale = ContentScale.FillBounds
-//        ),
-//        modifier = modifier
-//            .heightIn(max = 140.dp)
-//            .widthIn(max = 140.dp)
-//    )
 }
 
 @Composable
@@ -224,8 +166,8 @@ private fun SimpleCharacter.InfoContent(modifier: Modifier = Modifier) {
             .background(color = Color.Black.copy(alpha = 0.2f))
             .padding(16.dp),
     ) {
-        name?.let { Text(text = it, fontSize = 24.sp) }
-        status?.Content()
+        Text(text = name, fontSize = 24.sp)
+        status.Content()
         origin?.let {
             val text = buildAnnotatedString {
                 withStyle(style = SpanStyle(color = Color.DarkGray)) {

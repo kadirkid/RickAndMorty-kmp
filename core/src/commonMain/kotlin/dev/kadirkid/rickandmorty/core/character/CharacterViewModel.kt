@@ -45,7 +45,7 @@ internal class CharacterViewModelImpl(
             getCharacterByIdUseCase.execute(id)
                 .onSuccess {
                     _state.value = CharacterDetailState.Success(it)
-                    println("--------------> UNIV CHARACTER: ${it.name}")
+                    println("--------------> UNIV CHARACTER: ${it.type}")
                 }
                 .onFailure {
                     _state.value = CharacterDetailState.Error(it.message ?: "")

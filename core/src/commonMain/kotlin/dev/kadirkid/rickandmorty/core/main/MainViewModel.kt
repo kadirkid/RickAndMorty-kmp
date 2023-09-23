@@ -48,7 +48,7 @@ internal class MainViewModelImpl(
             getCharactersUseCase.execute()
                 .onSuccess { characters ->
                     _state.value = MainState.Success(characters)
-                    println("--------------> CHARACTERS: $characters")
+                    println("--------------> CHARACTERS: ${characters.map { it.name }}")
                 }
                 .onFailure { throwable ->
                     _state.value = MainState.Error(throwable.message ?: "Unknown error")

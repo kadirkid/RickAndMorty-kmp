@@ -20,4 +20,6 @@ internal object Constant {
     const val CHARACTERS_ENDPOINT = "/character"
 
     const val BASE_GRAPHQL_URL = "https://rickandmortyapi.com/graphql"
+
+    const val UNKNOWN = "Unknown"
 }

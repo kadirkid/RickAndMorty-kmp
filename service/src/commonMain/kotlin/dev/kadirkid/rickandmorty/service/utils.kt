@@ -19,6 +19,7 @@ import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.Operation
 import dev.kadirkid.rickandmorty.AllCharactersQuery
 import dev.kadirkid.rickandmorty.CharacterQuery
+import dev.kadirkid.rickandmorty.service.Constant.UNKNOWN
 import dev.kadirkid.rickandmorty.service.api.CharacterEpisode
 import dev.kadirkid.rickandmorty.service.api.CharacterGender
 import dev.kadirkid.rickandmorty.service.api.CharacterStatus
@@ -34,22 +35,22 @@ internal fun <D : Operation.Data> ApolloResponse<D>.getError(): Throwable {
 internal fun CharacterQuery.Character.toUniversalCharacter(): UniversalCharacter? {
     return UniversalCharacter(
         id = id ?: return null, // ID is mandatory
-        name = name,
+        name = name ?: UNKNOWN,
         gender = gender?.let { gender ->
             CharacterGender.entries.first { it.value == gender }
-        },
+        } ?: CharacterGender.UNKNOWN,
         status = status?.let { status ->
             CharacterStatus.entries.first { it.value == status }
-        },
+        } ?: CharacterStatus.UNKNOWN,
         image = image,
         origin = origin?.let { SimpleLocation(it.name) },
         lastKnownLocation = location?.let { SimpleLocation(it.name) },
-        species = species,
-        type = type,
+        species = species ?: UNKNOWN,
+        type = type.takeIf { !it.isNullOrEmpty() } ?: UNKNOWN,
         episode = episode.mapNotNull { episode ->
             episode ?: return@mapNotNull null
             CharacterEpisode(
-                id = episode.id,
+                id = episode.id!!,
                 name = episode.name,
                 airDate = episode.air_date,
                 episode = episode.episode,
@@ -63,13 +64,13 @@ internal fun List<AllCharactersQuery.Result?>.mapToSimpleCharacter(): List<Simpl
         result ?: return@mapNotNull null
         SimpleCharacter(
             id = result.id ?: return@mapNotNull null, // ID is mandatory
-            name = result.name,
+            name = result.name ?: UNKNOWN,
             gender = result.gender?.let { gender ->
                 CharacterGender.entries.first { it.value == gender }
-            },
+            }?: CharacterGender.UNKNOWN,
             status = result.status?.let { status ->
                 CharacterStatus.entries.first { it.value == status }
-            },
+            }?: CharacterStatus.UNKNOWN,
             image = result.image,
             origin = result.origin?.let { SimpleLocation(it.name) },
             lastKnownLocation = result.location?.let { SimpleLocation(it.name) },

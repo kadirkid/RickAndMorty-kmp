@@ -22,7 +22,7 @@ public class CharacterEpisode(
     /**
      * The id of the episode.
      */
-    public val id: String?,
+    public val id: String,
     /**
      * The name of the episode.
      */

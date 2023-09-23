@@ -29,15 +29,15 @@ public class SimpleCharacter(
     /**
      * The name of the character.
      */
-    public val name: String?,
+    public val name: String,
     /**
      * The gender of the character ('Female', 'Male', 'Genderless' or 'unknown').
      */
-    public val gender: CharacterGender?,
+    public val gender: CharacterGender,
     /**
      * The status of the character ('Alive', 'Dead' or 'unknown').
      */
-    public val status: CharacterStatus?,
+    public val status: CharacterStatus,
     /**
      * Link to the character's image.
      * All images are 300x300px and most are medium shots or portraits since they are intended to be

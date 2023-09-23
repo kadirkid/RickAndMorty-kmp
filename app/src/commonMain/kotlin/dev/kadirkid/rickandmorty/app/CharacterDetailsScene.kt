@@ -15,11 +15,23 @@
  */
 package dev.kadirkid.rickandmorty.app
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,13 +39,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import dev.kadirkid.rickandmorty.core.character.CharacterDetailState
 import dev.kadirkid.rickandmorty.core.character.CharacterViewModel
 import dev.kadirkid.rickandmorty.design.component.AsyncImage
 import dev.kadirkid.rickandmorty.design.core.SizeToken
 import dev.kadirkid.rickandmorty.design.core.TypographyToken
+import dev.kadirkid.rickandmorty.design.core.color.LocalBackgroundColors
 import dev.kadirkid.rickandmorty.design.core.color.LocalTextColors
 import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 import dev.kadirkid.rickandmorty.service.api.UniversalCharacter
@@ -47,34 +61,19 @@ internal fun CharacterDetails(
     Column(modifier = modifier.fillMaxSize()) {
         when (val state = characterViewModel.state.collectAsState().value) {
             is CharacterDetailState.Error -> {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Red),
-                ) {
-                    Text(
-                        text = state.message,
-                        color = LocalTextColors.current.primary.color,
-                        fontSize = TypographyToken.Headline.Large.textStyle.fontSize,
-                    )
-                }
+                Text(
+                    text = state.message,
+                    color = LocalTextColors.current.primary.color,
+                    fontSize = TypographyToken.Headline.Large.textStyle.fontSize,
+                )
             }
 
             CharacterDetailState.Loading -> {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                CircularProgressIndicator(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Blue),
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .padding(16.dp),
-                    )
-                }
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally),
+                )
             }
 
             is CharacterDetailState.Success -> {
@@ -94,80 +93,108 @@ internal fun CharacterDetails(
 
 @Composable
 private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifier = Modifier) {
-    Column(
-        verticalArrangement = Arrangement.Top,
-        modifier = Modifier
-            .fillMaxSize(),
+    Row(
+        modifier = modifier.fillMaxSize(),
     ) {
+        CharacterInformation(character = character, modifier = Modifier)
+        Spacer(modifier = Modifier.weight(2f))
+        EpisodesInformation(character = character, modifier = Modifier.padding(horizontal = 16.dp))
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun EpisodesInformation(character: UniversalCharacter, modifier: Modifier = Modifier) {
+    val state = rememberLazyListState()
+    LazyColumn(
+        state = state,
+        modifier = modifier.fillMaxSize()
+    ) {
+        stickyHeader {
+            Text(
+                text = "Episodes",
+                color = LocalTextColors.current.primary.color,
+                fontSize = TypographyToken.Headline.Small.textStyle.fontSize,
+                modifier = Modifier
+                    .background(color = LocalBackgroundColors.current.surface.color)
+                    .padding(8.dp)
+                    .fillMaxWidth()
+            )
+        }
+        items(
+            character.episode?.filter {
+                it.name != null &&
+                        it.episode != null &&
+                        it.airDate != null
+            } ?: emptyList(),
+            key = { it.id }
+        ) {
+            Card(modifier = Modifier.padding(8.dp)) {
+                Column(
+                    modifier = Modifier.padding(start = 8.dp),
+                ) {
+                    Text(
+                        text = it.episode!!,
+                        color = LocalTextColors.current.primary.color,
+                        fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
+                    )
+                    Text(
+                        text = buildAnnotatedString {
+                            append(it.name!!)
+                            append(" · ")
+                            append(it.airDate!!)
+                        },
+                        color = LocalTextColors.current.secondary.color,
+                        fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
+                        modifier = Modifier.padding(top = 4.dp, end = 8.dp),
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CharacterInformation(character: UniversalCharacter, modifier: Modifier = Modifier) {
+    Column(modifier = modifier.fillMaxHeight()) {
         character.image?.let {
             AsyncImage(
                 url = it,
                 contentDescription = "Character Image",
                 size = SizeToken.XXXXX_LARGE,
                 modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.CenterHorizontally),
+                    .padding(vertical = 16.dp)
+                    .clip(CardDefaults.shape)
             )
         }
+        StatusItem(statusType = "Name", value = character.name)
+        StatusItem(statusType = "Species", value = character.species)
+        StatusItem(statusType = "Gender", value = character.gender.value)
+        StatusItem(statusType = "Type", value = character.type)
+        character.origin?.let { StatusItem(statusType = "Origin", value = it.name) }
+        character.lastKnownLocation?.let { StatusItem(statusType = "Location", value = it.name) }
+    }
+}
 
-        character.name?.let {
-            Text(
-                text = it,
-                color = LocalTextColors.current.primary.color,
-                fontSize = TypographyToken.Headline.Large.textStyle.fontSize,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            )
-        }
-
-        character.origin?.let {
-            Text(
-                text = it.name,
-                color = LocalTextColors.current.secondary.color,
-                fontSize = TypographyToken.Headline.Small.textStyle.fontSize,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .align(Alignment.CenterHorizontally),
-            )
-        }
-
-        character.species?.let {
-            Text(
-                text = it,
-                color = LocalTextColors.current.secondary.color,
-                fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .align(Alignment.Start),
-            )
-        }
-
-        character.gender?.let {
-            Text(
-                text = it.value,
-                color = LocalTextColors.current.secondary.color,
-                fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .align(Alignment.Start),
-            )
-        }
+@Composable
+internal fun StatusItem(statusType: String, value: String, modifier: Modifier = Modifier) {
+    Row(
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.border(2.dp, LocalBackgroundColors.current.error.color)
+    ) {
         Text(
-            text = character.type ?: "Unknown",
-            color = LocalTextColors.current.secondary.color,
-            fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
-            modifier = Modifier
-                .padding(8.dp)
-                .align(Alignment.Start),
+            text = "$statusType:",
+            color = LocalTextColors.current.primary.color,
+            fontSize = TypographyToken.Label.Large.textStyle.fontSize,
+            modifier = Modifier.padding(8.dp)
         )
-        character.lastKnownLocation?.let {
-            Text(
-                text = it.name,
-                color = LocalTextColors.current.secondary.color,
-                fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .align(Alignment.Start),
-            )
-        }
+        Spacer(modifier = Modifier.weight(1f, fill = false).width(1.dp))
+        Text(
+            text = value,
+            color = LocalTextColors.current.secondary.color,
+            fontSize = TypographyToken.Label.Large.textStyle.fontSize,
+            modifier = Modifier.padding(8.dp)
+        )
     }
 }
