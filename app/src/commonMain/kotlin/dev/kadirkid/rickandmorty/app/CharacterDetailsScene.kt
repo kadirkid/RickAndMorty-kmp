@@ -26,9 +26,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -43,6 +41,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import dev.kadirkid.rickandmorty.core.character.CharacterDetailState
 import dev.kadirkid.rickandmorty.core.character.CharacterViewModel
+import dev.kadirkid.rickandmorty.design.CustomLazyColumn
 import dev.kadirkid.rickandmorty.design.component.AsyncImage
 import dev.kadirkid.rickandmorty.design.core.SizeToken
 import dev.kadirkid.rickandmorty.design.core.TypographyToken
@@ -104,11 +103,7 @@ private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifie
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun EpisodesInformation(character: UniversalCharacter, modifier: Modifier = Modifier) {
-    val state = rememberLazyListState()
-    LazyColumn(
-        state = state,
-        modifier = modifier.fillMaxSize(),
-    ) {
+    CustomLazyColumn(modifier = modifier.fillMaxSize()) { customModifier ->
         stickyHeader {
             Text(
                 text = "Episodes",
@@ -121,14 +116,14 @@ private fun EpisodesInformation(character: UniversalCharacter, modifier: Modifie
             )
         }
         items(
-            character.episode?.filter {
+            character.episode.filter {
                 it.name != null &&
-                    it.episode != null &&
-                    it.airDate != null
-            } ?: emptyList(),
+                        it.episode != null &&
+                        it.airDate != null
+            },
             key = { it.id },
         ) {
-            Card(modifier = Modifier.padding(8.dp)) {
+            Card(modifier = customModifier.padding(8.dp)) {
                 Column(
                     modifier = Modifier.padding(start = 8.dp),
                 ) {

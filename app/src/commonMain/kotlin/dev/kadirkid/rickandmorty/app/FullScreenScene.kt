@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import dev.kadirkid.rickandmorty.core.character.CharacterViewModel
 import dev.kadirkid.rickandmorty.core.main.MainState
 import dev.kadirkid.rickandmorty.core.main.MainViewModel
+import dev.kadirkid.rickandmorty.design.CustomLazyColumn
 import dev.kadirkid.rickandmorty.design.core.color.LocalBackgroundColors
 import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 
@@ -111,27 +112,12 @@ private fun DividedScreen(
     var selectedCharacter by remember { mutableStateOf(characters[0]) }
 
     Row(modifier = modifier) {
-        var largestWidth by remember { mutableStateOf(0) }
-        LazyColumn(modifier = Modifier.padding(vertical = 8.dp)) {
+        CustomLazyColumn {customModifier ->
             items(characters) {
                 SimpleCard(
                     character = it,
-                    modifier = Modifier
+                    modifier = customModifier
                         .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .layout { measurable, constraints ->
-                            val oldPlaceable = measurable.measure(constraints)
-                            if (oldPlaceable.width > largestWidth) largestWidth = oldPlaceable.width
-
-                            val newPlaceable = measurable.measure(
-                                constraints.copy(
-                                    minWidth = largestWidth,
-                                    maxWidth = largestWidth,
-                                ),
-                            )
-                            layout(newPlaceable.width, newPlaceable.height) {
-                                newPlaceable.place(0, 0)
-                            }
-                        }
                         .clickable { selectedCharacter = it },
                 )
             }
