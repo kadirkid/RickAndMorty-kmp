@@ -112,8 +112,10 @@ internal fun CharacterListScene(
                                     .padding(8.dp)
                                     .layout { measurable, constraints ->
                                         val placeable = measurable.measure(constraints)
-                                        if (placeable.width > largestWidth) largestWidth =
-                                            placeable.width
+                                        if (placeable.width > largestWidth) {
+                                            largestWidth =
+                                                placeable.width
+                                        }
                                         layout(largestWidth, placeable.height) {
                                             placeable.place(0, 0)
                                         }

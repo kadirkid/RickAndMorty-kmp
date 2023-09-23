@@ -108,7 +108,7 @@ private fun EpisodesInformation(character: UniversalCharacter, modifier: Modifie
     val state = rememberLazyListState()
     LazyColumn(
         state = state,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         stickyHeader {
             Text(
@@ -118,16 +118,16 @@ private fun EpisodesInformation(character: UniversalCharacter, modifier: Modifie
                 modifier = Modifier
                     .background(color = LocalBackgroundColors.current.surface.color)
                     .padding(8.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             )
         }
         items(
             character.episode?.filter {
                 it.name != null &&
-                        it.episode != null &&
-                        it.airDate != null
+                    it.episode != null &&
+                    it.airDate != null
             } ?: emptyList(),
-            key = { it.id }
+            key = { it.id },
         ) {
             Card(modifier = Modifier.padding(8.dp)) {
                 Column(
@@ -164,7 +164,7 @@ private fun CharacterInformation(character: UniversalCharacter, modifier: Modifi
                 size = SizeToken.XXXXX_LARGE,
                 modifier = Modifier
                     .padding(vertical = 16.dp)
-                    .clip(CardDefaults.shape)
+                    .clip(CardDefaults.shape),
             )
         }
         StatusItem(statusType = "Name", value = character.name)
@@ -181,20 +181,20 @@ internal fun StatusItem(statusType: String, value: String, modifier: Modifier = 
     Row(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.border(2.dp, LocalBackgroundColors.current.error.color)
+        modifier = modifier.border(2.dp, LocalBackgroundColors.current.error.color),
     ) {
         Text(
             text = "$statusType:",
             color = LocalTextColors.current.primary.color,
             fontSize = TypographyToken.Label.Large.textStyle.fontSize,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         )
         Spacer(modifier = Modifier.weight(1f, fill = false).width(1.dp))
         Text(
             text = value,
             color = LocalTextColors.current.secondary.color,
             fontSize = TypographyToken.Label.Large.textStyle.fontSize,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
         )
     }
 }

@@ -67,10 +67,10 @@ internal fun List<AllCharactersQuery.Result?>.mapToSimpleCharacter(): List<Simpl
             name = result.name ?: UNKNOWN,
             gender = result.gender?.let { gender ->
                 CharacterGender.entries.first { it.value == gender }
-            }?: CharacterGender.UNKNOWN,
+            } ?: CharacterGender.UNKNOWN,
             status = result.status?.let { status ->
                 CharacterStatus.entries.first { it.value == status }
-            }?: CharacterStatus.UNKNOWN,
+            } ?: CharacterStatus.UNKNOWN,
             image = result.image,
             origin = result.origin?.let { SimpleLocation(it.name) },
             lastKnownLocation = result.location?.let { SimpleLocation(it.name) },
