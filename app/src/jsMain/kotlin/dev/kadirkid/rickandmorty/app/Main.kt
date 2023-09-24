@@ -51,7 +51,7 @@ public fun main() {
                 HomeScreen(
                     mainViewModel = mainViewModel,
                     characterViewModel = characterViewModel,
-                    screenType = ScreenType.SPLIT
+                    screenType = ScreenType.SPLIT,
                 )
             }
             LaunchedEffect(Unit) { mainViewModel.fetch() }

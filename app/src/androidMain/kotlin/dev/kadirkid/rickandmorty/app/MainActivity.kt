@@ -45,7 +45,7 @@ public class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = "CharacterList",
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxSize(),
                 ) {
                     composable(START_DESTINATION_ROUTE) {
                         HomeScreen(
@@ -54,11 +54,11 @@ public class MainActivity : ComponentActivity() {
                                 navController.navigate(
                                     route = CHARACTER_DETAILS_ROUTE.replace(
                                         "{$CHARACTER_ID}",
-                                        it
-                                    )
+                                        it,
+                                    ),
                                 )
                             },
-                            screenType = ScreenType.NONE
+                            screenType = ScreenType.NONE,
                         )
                     }
                     composable(CHARACTER_DETAILS_ROUTE) {
@@ -66,7 +66,7 @@ public class MainActivity : ComponentActivity() {
                         CharacterDetailsScreen(
                             characterViewModel = characterViewModel,
                             characterId = id,
-                            screenType = ScreenType.NONE
+                            screenType = ScreenType.NONE,
                         )
                     }
                 }

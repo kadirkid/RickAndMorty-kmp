@@ -122,7 +122,7 @@ private fun DividedScreen(
     var selectedCharacter by remember { mutableStateOf(characters[0]) }
 
     Row(modifier = modifier) {
-        CustomLazyColumn {customModifier ->
+        CustomLazyColumn { customModifier ->
             items(characters) {
                 SimpleCard(
                     character = it,

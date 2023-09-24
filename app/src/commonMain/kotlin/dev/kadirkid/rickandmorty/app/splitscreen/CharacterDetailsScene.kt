@@ -58,7 +58,7 @@ internal fun CharacterDetailsScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxSize().background(LocalBackgroundColors.current.surface.color)
+        modifier = modifier.fillMaxSize().background(LocalBackgroundColors.current.surface.color),
     ) {
         when (val state = characterViewModel.state.collectAsState().value) {
             is CharacterDetailState.Error -> {
@@ -98,7 +98,7 @@ internal fun CharacterDetailsScreen(
 private fun FullCharacterScreen(
     character: UniversalCharacter,
     screenType: ScreenType,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier.fillMaxSize().padding(start = 16.dp),
@@ -146,7 +146,7 @@ private fun FullCharacterScreen(
                         item {
                             StatusItem(
                                 statusType = "Location",
-                                value = it.name
+                                value = it.name,
                             )
                         }
                     }
@@ -164,8 +164,8 @@ private fun FullCharacterScreen(
                     items(
                         character.episode.filter {
                             it.name != null &&
-                                    it.episode != null &&
-                                    it.airDate != null
+                                it.episode != null &&
+                                it.airDate != null
                         },
                         key = { it.id },
                     ) {
@@ -199,7 +199,7 @@ private fun FullCharacterScreen(
                 Spacer(modifier = Modifier.weight(2f))
                 EpisodesInformation(
                     character = character,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = 16.dp),
                 )
             }
         }
@@ -224,8 +224,8 @@ private fun EpisodesInformation(character: UniversalCharacter, modifier: Modifie
         items(
             character.episode.filter {
                 it.name != null &&
-                        it.episode != null &&
-                        it.airDate != null
+                    it.episode != null &&
+                    it.airDate != null
             },
             key = { it.id },
         ) {

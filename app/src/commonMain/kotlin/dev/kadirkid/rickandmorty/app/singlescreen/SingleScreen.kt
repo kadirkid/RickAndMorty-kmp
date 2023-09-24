@@ -54,7 +54,7 @@ internal fun SingleScreen(
         items(characters) {
             CharacterCard(
                 character = it,
-                modifier = customModifier.padding(8.dp).clickable { onClick(it.id) }
+                modifier = customModifier.padding(8.dp).clickable { onClick(it.id) },
             )
         }
     }
@@ -63,7 +63,7 @@ internal fun SingleScreen(
 @Composable
 internal fun CharacterCard(character: SimpleCharacter, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.heightIn(max = 200.dp)
+        modifier = modifier.heightIn(max = 200.dp),
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
