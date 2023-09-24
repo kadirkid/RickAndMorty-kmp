@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import dev.kadirkid.rickandmorty.app.splitscreen.HomeScreen
 import dev.kadirkid.rickandmorty.core.character.CharacterViewModel
 import dev.kadirkid.rickandmorty.core.di.initKoin
 import dev.kadirkid.rickandmorty.core.main.MainViewModel
@@ -48,7 +49,13 @@ public fun main() {
             title = "Rick and Morty",
             onCloseRequest = ::exitApplication,
         ) {
-            RickAndMortyTheme { FullScreenScene(mainViewModel, characterViewModel) }
+            RickAndMortyTheme {
+                HomeScreen(
+                    mainViewModel = mainViewModel,
+                    characterViewModel = characterViewModel,
+                    screenType = ScreenType.SPLIT
+                )
+            }
         }
 
         LaunchedEffect(Unit) {

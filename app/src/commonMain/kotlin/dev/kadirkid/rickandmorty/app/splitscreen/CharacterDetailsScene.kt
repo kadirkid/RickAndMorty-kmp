@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.kadirkid.rickandmorty.app
+package dev.kadirkid.rickandmorty.app.splitscreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
+import dev.kadirkid.rickandmorty.app.ScreenType
 import dev.kadirkid.rickandmorty.core.character.CharacterDetailState
 import dev.kadirkid.rickandmorty.core.character.CharacterViewModel
 import dev.kadirkid.rickandmorty.design.CustomLazyColumn
@@ -47,16 +48,18 @@ import dev.kadirkid.rickandmorty.design.core.SizeToken
 import dev.kadirkid.rickandmorty.design.core.TypographyToken
 import dev.kadirkid.rickandmorty.design.core.color.LocalBackgroundColors
 import dev.kadirkid.rickandmorty.design.core.color.LocalTextColors
-import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 import dev.kadirkid.rickandmorty.service.api.UniversalCharacter
 
 @Composable
-internal fun CharacterDetails(
+internal fun CharacterDetailsScreen(
     characterViewModel: CharacterViewModel,
-    character: SimpleCharacter,
+    characterId: String,
+    screenType: ScreenType,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(
+        modifier = modifier.fillMaxSize().background(LocalBackgroundColors.current.surface.color)
+    ) {
         when (val state = characterViewModel.state.collectAsState().value) {
             is CharacterDetailState.Error -> {
                 Text(
@@ -77,26 +80,129 @@ internal fun CharacterDetails(
             is CharacterDetailState.Success -> {
                 FullCharacterScreen(
                     character = state.characters,
+                    screenType = screenType,
                     modifier = Modifier
                         .fillMaxSize(),
                 )
             }
         }
 
-        LaunchedEffect(character) {
-            characterViewModel.fetch(character.id)
+        LaunchedEffect(characterId) {
+            characterViewModel.fetch(characterId)
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun FullCharacterScreen(character: UniversalCharacter, modifier: Modifier = Modifier) {
+private fun FullCharacterScreen(
+    character: UniversalCharacter,
+    screenType: ScreenType,
+    modifier: Modifier = Modifier
+) {
     Row(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().padding(start = 16.dp),
     ) {
-        CharacterInformation(character = character, modifier = Modifier)
-        Spacer(modifier = Modifier.weight(2f))
-        EpisodesInformation(character = character, modifier = Modifier.padding(horizontal = 16.dp))
+        when (screenType) {
+            ScreenType.NONE -> {
+                CustomLazyColumn { customModifier ->
+                    stickyHeader {
+                        Text(
+                            text = character.name,
+                            color = LocalTextColors.current.primary.color,
+                            fontSize = TypographyToken.Headline.Small.textStyle.fontSize,
+                            modifier = Modifier
+                                .background(color = LocalBackgroundColors.current.surface.color)
+                                .padding(8.dp)
+                                .fillMaxWidth(),
+                        )
+                    }
+                    item {
+                        character.image?.let {
+                            AsyncImage(
+                                url = it,
+                                contentDescription = "Character Image",
+                                size = SizeToken.XXXXX_LARGE,
+                                modifier = Modifier
+                                    .padding(vertical = 16.dp)
+                                    .clip(CardDefaults.shape),
+                            )
+                        }
+                    }
+                    item {
+                        StatusItem(statusType = "Species", value = character.species)
+                    }
+                    item {
+                        StatusItem(statusType = "Gender", value = character.gender.value)
+                    }
+                    item {
+                        StatusItem(statusType = "Type", value = character.type)
+                    }
+
+                    character.origin?.let {
+                        item { StatusItem(statusType = "Origin", value = it.name) }
+                    }
+                    character.lastKnownLocation?.let {
+                        item {
+                            StatusItem(
+                                statusType = "Location",
+                                value = it.name
+                            )
+                        }
+                    }
+                    stickyHeader {
+                        Text(
+                            text = "Episodes",
+                            color = LocalTextColors.current.primary.color,
+                            fontSize = TypographyToken.Headline.Small.textStyle.fontSize,
+                            modifier = Modifier
+                                .background(color = LocalBackgroundColors.current.surface.color)
+                                .padding(8.dp)
+                                .fillMaxWidth(),
+                        )
+                    }
+                    items(
+                        character.episode.filter {
+                            it.name != null &&
+                                    it.episode != null &&
+                                    it.airDate != null
+                        },
+                        key = { it.id },
+                    ) {
+                        Card(modifier = customModifier.padding(16.dp)) {
+                            Column(
+                                modifier = Modifier.padding(start = 8.dp),
+                            ) {
+                                Text(
+                                    text = it.episode!!,
+                                    color = LocalTextColors.current.primary.color,
+                                    fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
+                                )
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append(it.name!!)
+                                        append(" · ")
+                                        append(it.airDate!!)
+                                    },
+                                    color = LocalTextColors.current.secondary.color,
+                                    fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
+                                    modifier = Modifier.padding(top = 4.dp, end = 8.dp),
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            ScreenType.SPLIT -> {
+                CharacterInformation(character = character, modifier = Modifier)
+                Spacer(modifier = Modifier.weight(2f))
+                EpisodesInformation(
+                    character = character,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+        }
     }
 }
 

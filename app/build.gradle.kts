@@ -68,6 +68,7 @@ kotlin {
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.androidx.activity)
                 implementation(libs.androidx.appcompat)
+                implementation(libs.androidx.navigation.compose)
                 implementation(libs.koin.android)
                 implementation(libs.koin.androidx.compose)
                 implementation(libs.kotlinx.coroutines.android)

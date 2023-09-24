@@ -20,6 +20,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import dev.kadirkid.rickandmorty.app.splitscreen.CharacterDetailsScreen
+import dev.kadirkid.rickandmorty.app.splitscreen.HomeScreen
+import dev.kadirkid.rickandmorty.core.character.CharacterViewModel
 import dev.kadirkid.rickandmorty.core.main.MainViewModel
 import dev.kadirkid.rickandmorty.design.RickAndMortyTheme
 import org.koin.android.ext.android.inject
@@ -27,15 +33,50 @@ import org.koin.core.parameter.parametersOf
 
 public class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by inject { parametersOf(this) }
+    private val characterViewModel: CharacterViewModel by inject { parametersOf(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (savedInstanceState == null) mainViewModel.fetch()
         setContent {
             RickAndMortyTheme {
-                CharacterListScene(viewModel = mainViewModel, modifier = Modifier.fillMaxSize())
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = "CharacterList",
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    composable(START_DESTINATION_ROUTE) {
+                        HomeScreen(
+                            mainViewModel,
+                            onClick = {
+                                navController.navigate(
+                                    route = CHARACTER_DETAILS_ROUTE.replace(
+                                        "{$CHARACTER_ID}",
+                                        it
+                                    )
+                                )
+                            },
+                            screenType = ScreenType.NONE
+                        )
+                    }
+                    composable(CHARACTER_DETAILS_ROUTE) {
+                        val id = it.arguments?.getString(CHARACTER_ID)!!
+                        CharacterDetailsScreen(
+                            characterViewModel = characterViewModel,
+                            characterId = id,
+                            screenType = ScreenType.NONE
+                        )
+                    }
+                }
             }
         }
+    }
+
+    private companion object {
+        const val CHARACTER_ID = "characterId"
+        const val START_DESTINATION_ROUTE = "CharacterList"
+        const val CHARACTER_DETAILS_ROUTE = "CharacterDetails/{$CHARACTER_ID}"
     }
 }

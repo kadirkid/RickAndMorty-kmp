@@ -18,6 +18,7 @@ package dev.kadirkid.rickandmorty.app
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
+import dev.kadirkid.rickandmorty.app.splitscreen.HomeScreen
 import dev.kadirkid.rickandmorty.core.character.CharacterViewModel
 import dev.kadirkid.rickandmorty.core.di.initKoin
 import dev.kadirkid.rickandmorty.core.main.MainViewModel
@@ -46,7 +47,13 @@ public fun main() {
     onWasmReady {
         CanvasBasedWindow {
             LaunchedEffect(Unit) { initializeFonts() }
-            RickAndMortyTheme { FullScreenScene(mainViewModel, characterViewModel) }
+            RickAndMortyTheme {
+                HomeScreen(
+                    mainViewModel = mainViewModel,
+                    characterViewModel = characterViewModel,
+                    screenType = ScreenType.SPLIT
+                )
+            }
             LaunchedEffect(Unit) { mainViewModel.fetch() }
         }
     }

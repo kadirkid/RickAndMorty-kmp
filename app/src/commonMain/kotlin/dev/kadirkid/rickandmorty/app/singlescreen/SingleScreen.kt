@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.kadirkid.rickandmorty.app
+package dev.kadirkid.rickandmorty.app.singlescreen
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -21,110 +21,41 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.kadirkid.rickandmorty.core.main.MainState
-import dev.kadirkid.rickandmorty.core.main.MainViewModel
+import dev.kadirkid.rickandmorty.design.CustomLazyColumn
 import dev.kadirkid.rickandmorty.design.component.AsyncImage
 import dev.kadirkid.rickandmorty.design.core.SizeToken
 import dev.kadirkid.rickandmorty.service.api.CharacterStatus
 import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 
 @Composable
-internal fun CharacterListScene(
-    viewModel: MainViewModel,
+internal fun SingleScreen(
+    characters: List<SimpleCharacter>,
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Surface(
-        modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background,
-    ) {
-        Column {
-            Button(
-                onClick = { viewModel.reload() },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-            ) { Text(text = "Refresh") }
-            Spacer(modifier = Modifier.size(8.dp))
-            when (val state = viewModel.state.collectAsState().value) {
-                is MainState.Error -> {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        Text(text = state.message, fontSize = 64.sp)
-                    }
-                }
-
-                is MainState.Loading -> {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .padding(16.dp),
-                        )
-                    }
-                }
-
-                is MainState.Success -> {
-                    var largestWidth by remember { mutableStateOf(0) }
-                    LazyColumn(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                    ) {
-                        items(state.characters) {
-                            CharacterCard(
-                                character = it,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .layout { measurable, constraints ->
-                                        val placeable = measurable.measure(constraints)
-                                        if (placeable.width > largestWidth) {
-                                            largestWidth =
-                                                placeable.width
-                                        }
-                                        layout(largestWidth, placeable.height) {
-                                            placeable.place(0, 0)
-                                        }
-                                    },
-                            )
-                        }
-                    }
-                }
-            }
+    CustomLazyColumn(modifier = modifier.padding(vertical = 8.dp)) { customModifier ->
+        items(characters) {
+            CharacterCard(
+                character = it,
+                modifier = customModifier.padding(8.dp).clickable { onClick(it.id) }
+            )
         }
     }
 }
@@ -132,9 +63,7 @@ internal fun CharacterListScene(
 @Composable
 internal fun CharacterCard(character: SimpleCharacter, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier
-            .heightIn(max = 200.dp)
-            .clickable { /* TODO */ },
+        modifier = modifier.heightIn(max = 200.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,

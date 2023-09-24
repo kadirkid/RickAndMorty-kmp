@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.kadirkid.rickandmorty.app
+package dev.kadirkid.rickandmorty.app.splitscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,11 +24,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -42,9 +40,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.kadirkid.rickandmorty.app.ScreenType
+import dev.kadirkid.rickandmorty.app.SimpleCard
+import dev.kadirkid.rickandmorty.app.singlescreen.SingleScreen
 import dev.kadirkid.rickandmorty.core.character.CharacterViewModel
 import dev.kadirkid.rickandmorty.core.main.MainState
 import dev.kadirkid.rickandmorty.core.main.MainViewModel
@@ -53,9 +53,11 @@ import dev.kadirkid.rickandmorty.design.core.color.LocalBackgroundColors
 import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 
 @Composable
-public fun FullScreenScene(
+internal fun HomeScreen(
     mainViewModel: MainViewModel,
-    characterViewModel: CharacterViewModel,
+    screenType: ScreenType,
+    onClick: ((String) -> Unit)? = null,
+    characterViewModel: CharacterViewModel? = null,
     modifier: Modifier = Modifier,
 ) {
     Surface(modifier = modifier.fillMaxSize()) {
@@ -92,11 +94,19 @@ public fun FullScreenScene(
                 }
 
                 is MainState.Success -> {
-                    DividedScreen(
-                        characterViewModel = characterViewModel,
-                        characters = state.characters,
-                        modifier = Modifier.fillMaxSize(),
-                    )
+                    if (screenType == ScreenType.SPLIT) {
+                        DividedScreen(
+                            characterViewModel = characterViewModel,
+                            characters = state.characters,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    } else {
+                        SingleScreen(
+                            characters = state.characters,
+                            onClick = { onClick?.invoke(it) },
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
                 }
             }
         }
@@ -105,7 +115,7 @@ public fun FullScreenScene(
 
 @Composable
 private fun DividedScreen(
-    characterViewModel: CharacterViewModel,
+    characterViewModel: CharacterViewModel?,
     characters: List<SimpleCharacter>,
     modifier: Modifier = Modifier,
 ) {
@@ -129,13 +139,16 @@ private fun DividedScreen(
                 .fillMaxHeight()
                 .background(color = LocalBackgroundColors.current.primary.color),
         )
-        CharacterDetails(
-            characterViewModel = characterViewModel,
-            character = selectedCharacter,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
-                .padding(top = 16.dp),
-        )
+        characterViewModel?.let {
+            CharacterDetailsScreen(
+                characterViewModel = it,
+                characterId = selectedCharacter.id,
+                screenType = ScreenType.SPLIT,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp),
+            )
+        }
     }
 }
