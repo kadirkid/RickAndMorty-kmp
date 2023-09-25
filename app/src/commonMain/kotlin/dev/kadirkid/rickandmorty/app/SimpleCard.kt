@@ -51,13 +51,11 @@ internal fun SimpleCard(character: SimpleCharacter, modifier: Modifier = Modifie
             Column(
                 modifier = Modifier.padding(start = 8.dp),
             ) {
-                character.name?.let {
-                    Text(
-                        text = it,
-                        color = LocalTextColors.current.primary.color,
-                        fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
-                    )
-                }
+                Text(
+                    text = character.name,
+                    color = LocalTextColors.current.primary.color,
+                    fontSize = TypographyToken.Label.Medium.textStyle.fontSize,
+                )
                 character.origin?.let {
                     Text(
                         text = it.name,

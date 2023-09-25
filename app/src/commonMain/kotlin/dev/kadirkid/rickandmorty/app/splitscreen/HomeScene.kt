@@ -16,8 +16,6 @@
 package dev.kadirkid.rickandmorty.app.splitscreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,28 +25,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.compose.collectAsLazyPagingItems
 import dev.kadirkid.rickandmorty.app.ScreenType
-import dev.kadirkid.rickandmorty.app.SimpleCard
-import dev.kadirkid.rickandmorty.app.singlescreen.SingleScreen
+import dev.kadirkid.rickandmorty.app.common.CharacterList
 import dev.kadirkid.rickandmorty.core.character.CharacterViewModel
-import dev.kadirkid.rickandmorty.core.main.MainState
 import dev.kadirkid.rickandmorty.core.main.MainViewModel
-import dev.kadirkid.rickandmorty.design.CustomLazyColumn
 import dev.kadirkid.rickandmorty.design.core.color.LocalBackgroundColors
 import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 
@@ -62,52 +54,29 @@ internal fun HomeScreen(
 ) {
     Surface(modifier = modifier.fillMaxSize()) {
         Column {
+            val state = mainViewModel.pagingFlow.collectAsLazyPagingItems()
             Button(
-                onClick = { mainViewModel.reload() },
+                onClick = { state.refresh() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp),
             ) { Text(text = "Refresh") }
             Spacer(modifier = Modifier.size(8.dp))
-            when (val state = mainViewModel.state.collectAsState().value) {
-                is MainState.Error -> {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        Text(text = state.message, fontSize = 64.sp)
-                    }
-                }
 
-                is MainState.Loading -> {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .padding(16.dp),
-                        )
-                    }
-                }
-
-                is MainState.Success -> {
-                    if (screenType == ScreenType.SPLIT) {
-                        DividedScreen(
-                            characterViewModel = characterViewModel,
-                            characters = state.characters,
-                            modifier = Modifier.fillMaxSize(),
-                        )
-                    } else {
-                        SingleScreen(
-                            characters = state.characters,
-                            onClick = { onClick?.invoke(it) },
-                            modifier = Modifier.fillMaxSize(),
-                        )
-                    }
-                }
+            if (screenType == ScreenType.SPLIT) {
+                DividedScreen(
+                    characterViewModel = characterViewModel,
+                    characters = state,
+                    screenType = screenType,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            } else {
+                CharacterList(
+                    characters = state,
+                    onCharacterClicked = { onClick?.invoke(it.id) },
+                    screenType = screenType,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
         }
     }
@@ -116,22 +85,18 @@ internal fun HomeScreen(
 @Composable
 private fun DividedScreen(
     characterViewModel: CharacterViewModel?,
-    characters: List<SimpleCharacter>,
+    characters: LazyPagingItems<SimpleCharacter>,
+    screenType: ScreenType,
     modifier: Modifier = Modifier,
 ) {
-    var selectedCharacter by remember { mutableStateOf(characters[0]) }
+    var selectedCharacter by remember { mutableStateOf<SimpleCharacter?>(null) }
 
     Row(modifier = modifier) {
-        CustomLazyColumn { customModifier ->
-            items(characters) {
-                SimpleCard(
-                    character = it,
-                    modifier = customModifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .clickable { selectedCharacter = it },
-                )
-            }
-        }
+        CharacterList(
+            characters = characters,
+            screenType = screenType,
+            onCharacterClicked = { selectedCharacter = it }
+        )
         Spacer(
             modifier = Modifier
                 .width(1.dp)
@@ -139,16 +104,19 @@ private fun DividedScreen(
                 .fillMaxHeight()
                 .background(color = LocalBackgroundColors.current.primary.color),
         )
-        characterViewModel?.let {
-            CharacterDetailsScreen(
-                characterViewModel = it,
-                characterId = selectedCharacter.id,
-                screenType = ScreenType.SPLIT,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp),
-            )
+
+        characterViewModel?.let { viewModel ->
+            selectedCharacter?.let { character ->
+                CharacterDetailsScreen(
+                    characterViewModel = viewModel,
+                    characterId = character.id,
+                    screenType = ScreenType.SPLIT,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 16.dp),
+                )
+            }
         }
     }
 }

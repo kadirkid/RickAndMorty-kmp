@@ -16,11 +16,13 @@
 package dev.kadirkid.rickandmorty.service.api
 
 import dev.drewhamilton.poko.Poko
+import kotlinx.serialization.Serializable
 
 /**
  * Class containing minimum information about a character in the Rick and Morty universe.
  */
 @Poko
+@Serializable
 public class SimpleCharacter(
     /**
      * The id of the character.

@@ -2,7 +2,7 @@
 compileSdk = "34"
 minSdk = "24"
 targetSdk = "33"
-agp = "8.3.0-alpha04"
+agp = "8.1.1"
 kotlin = "1.9.10"
 activity-compose = "1.7.2"
 activity-androidx = "1.7.2"
@@ -17,6 +17,7 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 appcompat = "1.6.1"
 kotlinx-datetime = "0.4.1"
+kotlinx-serialization = "1.6.0"
 ktor = "2.3.4"
 material = "1.9.0"
 compose = "1.5.1"
@@ -31,6 +32,7 @@ spotless = "6.21.0"
 jvm = "17"
 jvmTarget = "11" # R8 Java 17 support pending, https://issuetracker.google.com/issues/227160052
 ktlint = "0.50.0"
+cashapp-paging = "3.2.0-alpha05-0.3.1-SNAPSHOT"
 
 [libraries]
 # Dependencies of the included build-logic
@@ -83,6 +85,7 @@ kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-
 kotlinx-coroutines-rx = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -101,12 +104,20 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
 
+paging-common = { module = "app.cash.paging:paging-common", version.ref = "cashapp-paging" }
+paging-common-compose = { module = "app.cash.paging:paging-compose-common", version.ref = "cashapp-paging" }
+paging-runtime = { module = "app.cash.paging:paging-runtime-composeui", version.ref = "cashapp-paging" }
+
+[bundles]
+paging = ["paging-common", "paging-common-compose", "paging-runtime"]
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serializable = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 jetbrain-compose = { id = "org.jetbrains.compose", version.ref = "compose-jb" }

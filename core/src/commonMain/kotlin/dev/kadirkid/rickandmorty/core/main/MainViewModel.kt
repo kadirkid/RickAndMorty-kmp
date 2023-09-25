@@ -13,22 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("TYPE_MISMATCH")
+
 package dev.kadirkid.rickandmorty.core.main
 
+import app.cash.paging.Pager
+import app.cash.paging.PagingConfig
+import app.cash.paging.PagingData
+import app.cash.paging.PagingSource
+import app.cash.paging.PagingSourceLoadParams
+import app.cash.paging.PagingSourceLoadResult
+import app.cash.paging.PagingSourceLoadResultError
+import app.cash.paging.PagingSourceLoadResultPage
+import app.cash.paging.PagingState
 import com.apollographql.apollo3.exception.ApolloCompositeException
 import dev.kadirkid.rickandmorty.service.GetCharactersUseCase
 import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 public interface MainViewModel {
-    public val state: StateFlow<MainState>
-
-    public fun fetch()
-    public fun reload()
+    public val pagingFlow: Flow<PagingData<SimpleCharacter>>
 }
 
 internal class MainViewModelImpl(
@@ -37,29 +46,50 @@ internal class MainViewModelImpl(
 ) : MainViewModel {
     private val _state = MutableStateFlow<MainState>(MainState.Loading)
     override val state: StateFlow<MainState> = _state.asStateFlow()
+    private val pager: Pager<Int, SimpleCharacter> = Pager(
+        config = PagingConfig(pageSize = 20, initialLoadSize = 20),
+        initialKey = null,
+        pagingSourceFactory = { CharacterListDataSource(useCase = getCharactersUseCase) },
+    )
+    override val pagingFlow: Flow<PagingData<SimpleCharacter>> = pager.flow
 
-    override fun fetch() = loadData()
+    private class CharacterListDataSource(
+        private val useCase: GetCharactersUseCase,
+    ) : PagingSource<Int, SimpleCharacter>() {
+        override suspend fun load(params: PagingSourceLoadParams<Int>): PagingSourceLoadResult<Int, SimpleCharacter> {
+            val page = params.key ?: FIRST_PAGE_INDEX
+            val result = useCase.execute(page = page)
 
-    override fun reload() = loadData()
-
-    private fun loadData() {
-        _state.value = MainState.Loading
-        mainScope.launch {
-            getCharactersUseCase.execute()
-                .onSuccess { characters ->
-                    _state.value = MainState.Success(characters)
-                    println("--------------> CHARACTERS: ${characters.map { it.name }}")
-                }
-                .onFailure { throwable ->
-                    _state.value = MainState.Error(throwable.message ?: "Unknown error")
-                    if (throwable is ApolloCompositeException) {
-                        throwable.suppressedExceptions.forEach { exception ->
-                            println("--------------> SUPPRESSED EXCEPTION: $exception")
-                        }
-                    } else {
-                        println("--------------> CHARACTERS FAILED WITH: $throwable")
+            return try {
+                val data = result.getOrThrow()
+                println("--------------> PAGE: $page\nDATA: ${data.results.map { it.name }}\n")
+                PagingSourceLoadResultPage(
+                    data = data.results,
+                    prevKey = data.prev,
+                    nextKey = data.next
+                )
+            } catch (e: Exception) {
+                if (e is ApolloCompositeException) {
+                    e.suppressedExceptions.forEach { exception ->
+                        println("--------------> SUPPRESSED EXCEPTION: $exception")
                     }
+                } else {
+                    println("--------------> CHARACTERS FAILED WITH: $e")
                 }
+
+                PagingSourceLoadResultError<Int, SimpleCharacter>(
+                    Exception("Whoops! Something went wrong: \n$e"),
+                )
+            }
+        }
+
+        override fun getRefreshKey(state: PagingState<Int, SimpleCharacter>): Int? = state.anchorPosition?.let {
+            state.closestPageToPosition(it)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
+        }
+
+        private companion object {
+            const val FIRST_PAGE_INDEX = 1
         }
     }
 }

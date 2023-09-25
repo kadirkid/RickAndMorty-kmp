@@ -35,20 +35,21 @@ public fun CustomLazyColumn(
     var largestWidth by remember { mutableStateOf(0) }
     LazyColumn(modifier = modifier.padding(vertical = 8.dp)) {
         content(
-            Modifier.layout { measurable, constraints ->
-                val oldPlaceable = measurable.measure(constraints)
-                if (oldPlaceable.width > largestWidth) largestWidth = oldPlaceable.width
-
-                val newPlaceable = measurable.measure(
-                    constraints.copy(
-                        minWidth = largestWidth,
-                        maxWidth = largestWidth,
-                    ),
-                )
-                layout(newPlaceable.width, newPlaceable.height) {
-                    newPlaceable.place(0, 0)
-                }
-            },
+//            Modifier.layout { measurable, constraints ->
+//                val oldPlaceable = measurable.measure(constraints)
+//                if (oldPlaceable.width > largestWidth) largestWidth = oldPlaceable.width
+//
+//                val newPlaceable = measurable.measure(
+//                    constraints.copy(
+//                        minWidth = largestWidth,
+//                        maxWidth = largestWidth,
+//                    ),
+//                )
+//                layout(newPlaceable.width, newPlaceable.height) {
+//                    newPlaceable.place(0, 0)
+//                }
+//            },
+            Modifier
         )
     }
 }

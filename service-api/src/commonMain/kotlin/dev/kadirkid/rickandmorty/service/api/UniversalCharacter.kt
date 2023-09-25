@@ -16,8 +16,10 @@
 package dev.kadirkid.rickandmorty.service.api
 
 import dev.drewhamilton.poko.Poko
+import kotlinx.serialization.Serializable
 
 @Poko
+@Serializable
 public class UniversalCharacter(
     /**
      * The id of the character.

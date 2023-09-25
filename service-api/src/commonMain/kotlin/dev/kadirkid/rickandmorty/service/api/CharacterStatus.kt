@@ -15,9 +15,12 @@
  */
 package dev.kadirkid.rickandmorty.service.api
 
+import kotlinx.serialization.Serializable
+
 /**
  * Class that represents the status of a character in the Rick and Morty universe.
  */
+@Serializable
 public enum class CharacterStatus(public val value: String) {
     ALIVE("Alive"),
     DEAD("Dead"),

@@ -15,9 +15,12 @@
  */
 package dev.kadirkid.rickandmorty.service.api
 
+import kotlinx.serialization.Serializable
+
 /**
  * Class that represents the gender of a character in the Rick and Morty universe.
  */
+@Serializable
 public enum class CharacterGender(public val value: String) {
     FEMALE("Female"),
     MALE("Male"),

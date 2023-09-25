@@ -16,6 +16,7 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serializable)
     alias(libs.plugins.android.library)
     alias(libs.plugins.poko)
 }
@@ -37,6 +38,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.serialization)
                 implementation(libs.apollo.runtime)
             }
         }

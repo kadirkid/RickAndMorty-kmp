@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.android.build.gradle.internal.ide.kmp.KotlinAndroidSourceSetMarker.Companion.android
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -50,11 +49,14 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
+                implementation(libs.koin.core)
+                implementation(libs.bundles.paging)
+                implementation(libs.kotlinx.coroutines.core)
                 implementation(projects.core)
                 implementation(projects.design)
+                implementation(projects.service)
                 implementation(projects.serviceApi)
-                implementation(libs.koin.core)
-                implementation(libs.kotlinx.coroutines.core)
+                implementation(projects.util)
             }
         }
 

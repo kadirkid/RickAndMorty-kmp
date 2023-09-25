@@ -17,7 +17,6 @@ package dev.kadirkid.rickandmorty.app.singlescreen
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,7 +25,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,27 +36,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.kadirkid.rickandmorty.design.CustomLazyColumn
 import dev.kadirkid.rickandmorty.design.component.AsyncImage
 import dev.kadirkid.rickandmorty.design.core.SizeToken
 import dev.kadirkid.rickandmorty.service.api.CharacterStatus
 import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
-
-@Composable
-internal fun SingleScreen(
-    characters: List<SimpleCharacter>,
-    onClick: (String) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    CustomLazyColumn(modifier = modifier.padding(vertical = 8.dp)) { customModifier ->
-        items(characters) {
-            CharacterCard(
-                character = it,
-                modifier = customModifier.padding(8.dp).clickable { onClick(it.id) },
-            )
-        }
-    }
-}
 
 @Composable
 internal fun CharacterCard(character: SimpleCharacter, modifier: Modifier = Modifier) {

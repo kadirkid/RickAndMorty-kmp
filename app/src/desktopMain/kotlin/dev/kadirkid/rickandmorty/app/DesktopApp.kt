@@ -57,9 +57,5 @@ public fun main() {
                 )
             }
         }
-
-        LaunchedEffect(Unit) {
-            mainViewModel.fetch()
-        }
     }
 }

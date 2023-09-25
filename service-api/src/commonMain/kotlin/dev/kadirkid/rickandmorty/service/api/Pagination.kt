@@ -15,13 +15,13 @@
  */
 package dev.kadirkid.rickandmorty.service.api
 
-import dev.drewhamilton.poko.Poko
+import kotlinx.serialization.Serializable
 
 /**
  * Class that represents the pagination of a response.
  */
-@Poko
-public class Pagination<T>(
+@Serializable
+public data class Pagination<T>(
     /**
      * The length of the response.
      */

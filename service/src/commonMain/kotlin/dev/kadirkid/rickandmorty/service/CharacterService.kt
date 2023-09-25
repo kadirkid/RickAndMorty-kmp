@@ -16,6 +16,7 @@
 package dev.kadirkid.rickandmorty.service
 
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.api.Optional
 import dev.kadirkid.rickandmorty.AllCharactersQuery
 import dev.kadirkid.rickandmorty.CharacterQuery
 import dev.kadirkid.rickandmorty.service.api.Pagination
@@ -28,11 +29,11 @@ internal class CharacterService(
     private val apolloClient: ApolloClient,
     private val dispatchers: Dispatchers,
 ) : CharacterApi {
-    override suspend fun getAllCharacters(): Result<Pagination<List<SimpleCharacter>>> =
+    override suspend fun getAllCharacters(page: Int): Result<Pagination<List<SimpleCharacter>>> =
         runCatching {
             val result = withContext(dispatchers.IO) {
                 apolloClient
-                    .query(AllCharactersQuery())
+                    .query(AllCharactersQuery(Optional.present(page)))
                     .execute()
             }
             result

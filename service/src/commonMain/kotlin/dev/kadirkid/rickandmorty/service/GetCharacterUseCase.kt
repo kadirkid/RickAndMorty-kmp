@@ -15,6 +15,7 @@
  */
 package dev.kadirkid.rickandmorty.service
 
+import dev.kadirkid.rickandmorty.service.api.Pagination
 import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 
 public interface GetCharactersUseCase {
@@ -26,18 +27,20 @@ public interface GetCharactersUseCase {
      * @return The list of characters.
      */
     public suspend fun execute(
+        page: Int,
         filterType: CharacterSortType = CharacterSortType.DEFAULT,
         forceRefresh: Boolean = false,
-    ): Result<List<SimpleCharacter>>
+    ):  Result<Pagination<List<SimpleCharacter>>>
 }
 
 internal class GetCharactersUseCaseImpl(private val characterApi: CharacterApi) :
     GetCharactersUseCase {
     override suspend fun execute(
+        page: Int,
         filterType: CharacterSortType,
         forceRefresh: Boolean,
-    ): Result<List<SimpleCharacter>> = characterApi.getAllCharacters().fold(
-        onSuccess = { pagination -> Result.success(pagination.results.sorted(filterType)) },
+    ): Result<Pagination<List<SimpleCharacter>>> = characterApi.getAllCharacters(page).fold(
+        onSuccess = { pagination -> Result.success(pagination.copy(results = pagination.results.sorted(filterType))) },
         onFailure = { error -> Result.failure(error) },
     )
 }

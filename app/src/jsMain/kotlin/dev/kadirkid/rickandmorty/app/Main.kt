@@ -54,7 +54,6 @@ public fun main() {
                     screenType = ScreenType.SPLIT,
                 )
             }
-            LaunchedEffect(Unit) { mainViewModel.fetch() }
         }
     }
 }

@@ -37,6 +37,8 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.apollo.runtime)
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.paging.common)
+                implementation(libs.paging.common.compose)
                 implementation(projects.service)
                 implementation(projects.serviceApi)
                 implementation(projects.design)

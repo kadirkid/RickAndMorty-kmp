@@ -16,12 +16,15 @@
 package dev.kadirkid.rickandmorty.service.api
 
 import dev.drewhamilton.poko.Poko
+import kotlinx.serialization.Serializable
 
 /**
  * Class that represents only the name of a location in the Rick and Morty universe.
  */
 @Poko
+@Serializable
 public class SimpleLocation(private val internalName: String?) {
+
     public val name: String
         get() = internalName ?: "Unknown"
 }

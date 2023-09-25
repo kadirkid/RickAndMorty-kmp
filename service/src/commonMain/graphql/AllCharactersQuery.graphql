@@ -1,5 +1,5 @@
-query AllCharacters {
-    characters {
+query AllCharacters($page: Int) {
+    characters(page: $page) {
         info {
             count
             pages
