@@ -15,6 +15,9 @@
  */
 package dev.kadirkid.rickandmorty.service
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
 import dev.kadirkid.rickandmorty.AllCharactersQuery
@@ -50,6 +53,27 @@ internal class CharacterService(
                     )
                 } ?: throw result.getError()
         }
+
+    override suspend fun getAllCharacter(page: Int): Either<Throwable, Pagination<List<SimpleCharacter>>> {
+        val result = withContext(dispatchers.IO) {
+            apolloClient
+                .query(AllCharactersQuery(Optional.present(page)))
+                .execute()
+        }
+        return result
+            .data
+            ?.characters
+            ?.takeIf { it.results != null }
+            ?.let {
+                Pagination(
+                    count = it.info?.count,
+                    pages = it.info?.pages,
+                    next = it.info?.next,
+                    prev = it.info?.prev,
+                    results = it.results!!.mapToSimpleCharacter(),
+                )
+            }?.right() ?: result.getError().left()
+    }
 
     override suspend fun getCharacter(id: String): Result<UniversalCharacter> = runCatching {
         val result = withContext(dispatchers.IO) {

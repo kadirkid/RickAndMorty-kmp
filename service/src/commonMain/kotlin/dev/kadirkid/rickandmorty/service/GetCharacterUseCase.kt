@@ -15,6 +15,7 @@
  */
 package dev.kadirkid.rickandmorty.service
 
+import arrow.core.Either
 import dev.kadirkid.rickandmorty.service.api.Pagination
 import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 
@@ -30,7 +31,13 @@ public interface GetCharactersUseCase {
         page: Int,
         filterType: CharacterSortType = CharacterSortType.DEFAULT,
         forceRefresh: Boolean = false,
-    ):  Result<Pagination<List<SimpleCharacter>>>
+    ): Result<Pagination<List<SimpleCharacter>>>
+
+    public suspend fun invoke(
+        page: Int,
+        filterType: CharacterSortType = CharacterSortType.DEFAULT,
+        forceRefresh: Boolean = false,
+    ): Either<Throwable, Pagination<List<SimpleCharacter>>>
 }
 
 internal class GetCharactersUseCaseImpl(private val characterApi: CharacterApi) :
@@ -39,10 +46,28 @@ internal class GetCharactersUseCaseImpl(private val characterApi: CharacterApi) 
         page: Int,
         filterType: CharacterSortType,
         forceRefresh: Boolean,
-    ): Result<Pagination<List<SimpleCharacter>>> = characterApi.getAllCharacters(page).fold(
-        onSuccess = { pagination -> Result.success(pagination.copy(results = pagination.results.sorted(filterType))) },
-        onFailure = { error -> Result.failure(error) },
-    )
+    ): Result<Pagination<List<SimpleCharacter>>> {
+        return characterApi.getAllCharacters(page).fold(
+            onSuccess = { pagination ->
+                Result.success(
+                    pagination.copy(
+                        results = pagination.results.sorted(
+                            filterType
+                        )
+                    )
+                )
+            },
+            onFailure = { error -> Result.failure(error) },
+        )
+    }
+
+    override suspend fun invoke(
+        page: Int,
+        filterType: CharacterSortType,
+        forceRefresh: Boolean
+    ): Either<Throwable, Pagination<List<SimpleCharacter>>> = characterApi
+        .getAllCharacter(page)
+        .map { pagination -> pagination.copy(results = pagination.results.sorted(filterType)) }
 }
 
 private fun List<SimpleCharacter>.sorted(

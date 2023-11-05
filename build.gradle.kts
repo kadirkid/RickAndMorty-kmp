@@ -40,7 +40,14 @@ plugins {
 }
 
 subprojects {
-    afterEvaluate { apply(plugin = "rickandmorty.spotless") }
+    afterEvaluate {
+        apply(plugin = "rickandmorty.spotless")
+        pluginManager.withAnyKotlinPlugin {
+            dependencies {
+                "implementation"(enforcedPlatform(libs.arrow.bom))
+            }
+        }
+    }
     kotlinSetup()
     androidSetup()
     jvmTargetConventionSetup()

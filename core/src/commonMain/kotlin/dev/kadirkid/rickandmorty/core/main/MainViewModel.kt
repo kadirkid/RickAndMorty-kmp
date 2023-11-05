@@ -44,8 +44,6 @@ internal class MainViewModelImpl(
     private val getCharactersUseCase: GetCharactersUseCase,
     private val mainScope: CoroutineScope,
 ) : MainViewModel {
-    private val _state = MutableStateFlow<MainState>(MainState.Loading)
-    override val state: StateFlow<MainState> = _state.asStateFlow()
     private val pager: Pager<Int, SimpleCharacter> = Pager(
         config = PagingConfig(pageSize = 20, initialLoadSize = 20),
         initialKey = null,
@@ -59,7 +57,10 @@ internal class MainViewModelImpl(
         override suspend fun load(params: PagingSourceLoadParams<Int>): PagingSourceLoadResult<Int, SimpleCharacter> {
             val page = params.key ?: FIRST_PAGE_INDEX
             val result = useCase.execute(page = page)
-
+            val r = useCase.invoke(page = page)
+            if (r.isRight()) {
+                r.toIor().isRight()
+            }
             return try {
                 val data = result.getOrThrow()
                 println("--------------> PAGE: $page\nDATA: ${data.results.map { it.name }}\n")

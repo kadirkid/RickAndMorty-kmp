@@ -2,7 +2,7 @@
 compileSdk = "34"
 minSdk = "24"
 targetSdk = "33"
-agp = "8.1.1"
+agp = "8.1.2"
 kotlin = "1.9.10"
 activity-compose = "1.7.2"
 activity-androidx = "1.7.2"
@@ -32,7 +32,8 @@ spotless = "6.21.0"
 jvm = "17"
 jvmTarget = "11" # R8 Java 17 support pending, https://issuetracker.google.com/issues/227160052
 ktlint = "0.50.0"
-cashapp-paging = "3.2.0-alpha05-0.3.1-SNAPSHOT"
+cashapp-paging = "3.3.0-alpha02-0.4.0"
+arrow = "1.2.0"
 
 [libraries]
 # Dependencies of the included build-logic
@@ -106,10 +107,13 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 
 paging-common = { module = "app.cash.paging:paging-common", version.ref = "cashapp-paging" }
 paging-common-compose = { module = "app.cash.paging:paging-compose-common", version.ref = "cashapp-paging" }
-paging-runtime = { module = "app.cash.paging:paging-runtime-composeui", version.ref = "cashapp-paging" }
+
+arrow-bom = { module = "io.arrow-kt:arrow-stack", version.ref = "arrow" }
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+arrow-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 
 [bundles]
-paging = ["paging-common", "paging-common-compose", "paging-runtime"]
+paging = ["paging-common", "paging-common-compose"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
