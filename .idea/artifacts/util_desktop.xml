@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="util-desktop">
+    <output-path>$PROJECT_DIR$/util/build/libs</output-path>
+    <root id="archive" name="util-desktop.jar">
+      <element id="module-output" name="RickAndMorty.util.desktopMain" />
+    </root>
+  </artifact>
+</component>

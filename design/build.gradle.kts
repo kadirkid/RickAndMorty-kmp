@@ -20,13 +20,13 @@ plugins {
 }
 
 compose {
-    kotlinCompilerPlugin = dependencies.compiler.forKotlin("1.9.0")
-    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.10")
+    val kotlinVersion = libs.versions.kotlin.get()
+    kotlinCompilerPlugin.set(dependencies.compiler.forKotlin(kotlinVersion))
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=$kotlinVersion")
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
     explicitApi()
 
     jvm("desktop")
@@ -35,43 +35,35 @@ kotlin {
 
     androidTarget()
 
-    ios()
+    iosSimulatorArm64()
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(compose.ui)
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-            }
+        commonMain.dependencies {
+            implementation(compose.ui)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.coil.compose)
-                implementation(compose.uiTooling)
-            }
+        androidMain.dependencies {
+            implementation(libs.coil.compose)
+            implementation(compose.uiTooling)
         }
 
         val desktopMain by getting {
             resources.srcDir("src/commonRes")
         }
 
-        val jsMain by getting {
-            dependencies {
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.js)
-            }
+        jsMain.dependencies {
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.components.resources)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.js)
         }
 
-        val iosMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.darwin)
-            }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.darwin)
         }
     }
 }

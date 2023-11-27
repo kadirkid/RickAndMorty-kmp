@@ -18,9 +18,8 @@ plugins {
     alias(libs.plugins.android.library)
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
     explicitApi()
 
     jvm("desktop")
@@ -29,22 +28,16 @@ kotlin {
 
     androidTarget()
 
-    ios()
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.koin.core)
-                implementation(libs.apollo.runtime)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.bundles.paging)
-                implementation(libs.arrow.core)
-                implementation(projects.service)
-                implementation(projects.serviceApi)
-                implementation(projects.design)
-                implementation(projects.util)
-            }
-        }
+    sourceSets.commonMain.dependencies {
+        implementation(libs.koin.core)
+        implementation(libs.apollo.runtime)
+        implementation(libs.kotlinx.coroutines.core)
+        implementation(libs.bundles.paging)
+        implementation(libs.arrow.core)
+        implementation(projects.service)
+        implementation(projects.serviceApi)
+        implementation(projects.design)
+        implementation(projects.util)
     }
 }
 

@@ -21,9 +21,8 @@ plugins {
     alias(libs.plugins.poko)
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
     explicitApi()
 
     jvm("desktop")
@@ -32,24 +31,14 @@ kotlin {
 
     androidTarget()
 
-    ios()
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.serialization)
-                implementation(libs.apollo.runtime)
-            }
-        }
+    sourceSets.commonMain.dependencies {
+        implementation(libs.kotlinx.datetime)
+        implementation(libs.kotlinx.serialization)
+        implementation(libs.apollo.runtime)
     }
 }
 
 android {
     namespace = "dev.kadirkid.rickandmorty.service.api"
-    sourceSets {
-        named("main") {
-            res.srcDir("src/commonRes")
-        }
-    }
+    sourceSets.named("main").get().res.srcDir("src/commonRes")
 }

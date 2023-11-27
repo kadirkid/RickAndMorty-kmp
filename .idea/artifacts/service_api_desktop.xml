@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="service-api-desktop">
+    <output-path>$PROJECT_DIR$/service-api/build/libs</output-path>
+    <root id="archive" name="service-api-desktop.jar">
+      <element id="module-output" name="RickAndMorty.service-api.desktopMain" />
+    </root>
+  </artifact>
+</component>

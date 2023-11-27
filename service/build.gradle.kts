@@ -31,9 +31,8 @@ apollo {
     }
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
     explicitApi()
 
     jvm("desktop")
@@ -42,31 +41,21 @@ kotlin {
 
     androidTarget()
 
-    ios()
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.apollo.runtime)
-                implementation(libs.apollo.api)
-                implementation(libs.apollo.normalizedCache)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.koin.core)
-                implementation(libs.arrow.core)
-                implementation(libs.arrow.coroutines)
-                implementation(projects.serviceApi)
-                implementation(projects.util)
-            }
-        }
+    sourceSets.commonMain.dependencies {
+        implementation(libs.kotlinx.datetime)
+        implementation(libs.apollo.runtime)
+        implementation(libs.apollo.api)
+        implementation(libs.apollo.normalizedCache)
+        implementation(libs.kotlinx.coroutines.core)
+        implementation(libs.koin.core)
+        implementation(libs.arrow.core)
+        implementation(libs.arrow.coroutines)
+        implementation(projects.serviceApi)
+        implementation(projects.util)
     }
 }
 
 android {
     namespace = "dev.kadirkid.rickandmorty.service"
-    sourceSets {
-        named("main") {
-            res.srcDir("src/commonRes")
-        }
-    }
+    sourceSets.named("main").get().res.srcDir("src/commonRes")
 }
