@@ -22,13 +22,17 @@ import org.gradle.kotlin.dsl.getByType
 
 class SpotlessConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
+        val exclusions = arrayOf(
+            "**/build/**",
+            "**/.*/**",
+        )
         with(target) {
             pluginManager.apply("com.diffplug.spotless")
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             extensions.configure<SpotlessExtension> {
                 kotlin {
                     target("**/*.kt")
-                    targetExclude("${layout.buildDirectory}/**/*.kt", "**/copyright.kt", "**/build/**")
+                    targetExclude("${layout.buildDirectory}/**/*.kt", "**/copyright.kt", *exclusions)
                     ktlint(libs.findVersion("ktlint").get().toString())
                     licenseHeaderFile(rootProject.file("$rootDir/spotless/copyright.kt"))
                     trimTrailingWhitespace()
@@ -36,13 +40,13 @@ class SpotlessConventionPlugin : Plugin<Project> {
                 }
                 format("kts") {
                     target("**/*.kts")
-                    targetExclude("${layout.buildDirectory}/**/*.kts", "**/copyright.kts", "**/build/**")
+                    targetExclude("${layout.buildDirectory}/**/*.kts", "**/copyright.kts", *exclusions)
                     // Look for the first line that doesn't have a block comment (assumed to be the license)
                     licenseHeaderFile(rootProject.file("spotless/copyright.kts"), "(^(?![\\/ ]\\*).*$)")
                 }
                 format("xml") {
                     target("**/*.xml")
-                    targetExclude("**/build/**/*.xml", "**/copyright.xml", "**/build/**")
+                    targetExclude("**/build/**/*.xml", "**/copyright.xml", *exclusions)
                     // Look for the first XML tag that isn't a comment (<!--) or the xml declaration (<?xml)
                     licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[^!?])")
                 }

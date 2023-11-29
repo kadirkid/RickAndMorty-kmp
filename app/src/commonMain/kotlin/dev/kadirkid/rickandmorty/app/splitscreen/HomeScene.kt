@@ -65,7 +65,7 @@ internal fun HomeScreen(
 
             if (screenType == ScreenType.SPLIT) {
                 DividedScreen(
-                    characterViewModel = characterViewModel,
+                    characterViewModel = characterViewModel!!,
                     characters = state,
                     screenType = screenType,
                     modifier = Modifier.fillMaxSize(),
@@ -84,7 +84,7 @@ internal fun HomeScreen(
 
 @Composable
 private fun DividedScreen(
-    characterViewModel: CharacterViewModel?,
+    characterViewModel: CharacterViewModel,
     characters: LazyPagingItems<SimpleCharacter>,
     screenType: ScreenType,
     modifier: Modifier = Modifier,
@@ -95,7 +95,7 @@ private fun DividedScreen(
         CharacterList(
             characters = characters,
             screenType = screenType,
-            onCharacterClicked = { selectedCharacter = it }
+            onCharacterClicked = { selectedCharacter = it },
         )
         Spacer(
             modifier = Modifier
@@ -105,18 +105,16 @@ private fun DividedScreen(
                 .background(color = LocalBackgroundColors.current.primary.color),
         )
 
-        characterViewModel?.let { viewModel ->
-            selectedCharacter?.let { character ->
-                CharacterDetailsScreen(
-                    characterViewModel = viewModel,
-                    characterId = character.id,
-                    screenType = ScreenType.SPLIT,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 16.dp),
-                )
-            }
+        selectedCharacter?.let { character ->
+            CharacterDetailsScreen(
+                characterViewModel = characterViewModel,
+                characterId = character.id,
+                screenType = ScreenType.SPLIT,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp),
+            )
         }
     }
 }

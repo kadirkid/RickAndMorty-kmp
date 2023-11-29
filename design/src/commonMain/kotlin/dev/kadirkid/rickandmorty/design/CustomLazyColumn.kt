@@ -24,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -49,7 +48,7 @@ public fun CustomLazyColumn(
 //                    newPlaceable.place(0, 0)
 //                }
 //            },
-            Modifier
+            Modifier,
         )
     }
 }

@@ -21,13 +21,13 @@ plugins {
 }
 
 compose {
-    kotlinCompilerPlugin = dependencies.compiler.forKotlin("1.9.0")
-    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.10")
+    val kotlinVersion = libs.versions.kotlin.get()
+    kotlinCompilerPlugin.set(dependencies.compiler.forKotlin(kotlinVersion))
+    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=$kotlinVersion")
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
     explicitApi()
 
     jvm("desktop")
@@ -40,11 +40,8 @@ kotlin {
 
     androidTarget()
 
-    ios()
-
     sourceSets {
-        val commonMain by getting {
-            dependencies {
+        commonMain.dependencies {
                 implementation(compose.ui)
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -58,10 +55,8 @@ kotlin {
                 implementation(projects.serviceApi)
                 implementation(projects.util)
             }
-        }
 
-        val androidMain by getting {
-            dependencies {
+        androidMain.dependencies {
                 implementation(libs.coil.compose)
                 implementation(compose.uiTooling)
                 implementation(libs.androidx.core.ktx)
@@ -75,7 +70,6 @@ kotlin {
                 implementation(libs.koin.androidx.compose)
                 implementation(libs.kotlinx.coroutines.android)
 //                implementation(libs.androidx.navigation.common.ktx)
-            }
         }
 
         val desktopMain by getting {
@@ -88,7 +82,7 @@ kotlin {
             }
         }
 
-        val jsMain by getting {
+        jsMain {
             resources.srcDirs("src/commonRes", "../rickandmorty/src/commonRes")
             dependencies {
                 implementation(projects.design)
