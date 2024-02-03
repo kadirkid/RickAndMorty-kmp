@@ -32,18 +32,6 @@ kotlin {
 
     androidTarget()
 
-<<<<<<< Updated upstream
-    ios()
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.serialization)
-                implementation(libs.apollo.runtime)
-            }
-        }
-=======
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -52,7 +40,6 @@ kotlin {
         implementation(libs.kotlinx.datetime)
         implementation(libs.kotlinx.serialization)
         implementation(libs.apollo.runtime)
->>>>>>> Stashed changes
     }
 }
 

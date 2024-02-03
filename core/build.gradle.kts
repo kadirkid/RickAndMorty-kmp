@@ -28,25 +28,6 @@ kotlin {
     js(IR) { browser() }
 
     androidTarget()
-
-<<<<<<< Updated upstream
-    ios()
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.koin.core)
-                implementation(libs.apollo.runtime)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.bundles.paging)
-                implementation(libs.arrow.core)
-                implementation(projects.service)
-                implementation(projects.serviceApi)
-                implementation(projects.design)
-                implementation(projects.util)
-            }
-        }
-=======
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -61,7 +42,6 @@ kotlin {
         implementation(projects.serviceApi)
         implementation(projects.design)
         implementation(projects.util)
->>>>>>> Stashed changes
     }
 }
 

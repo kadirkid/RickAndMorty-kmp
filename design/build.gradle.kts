@@ -35,13 +35,9 @@ kotlin {
 
     androidTarget()
 
-<<<<<<< Updated upstream
-    ios()
-=======
     iosX64()
     iosArm64()
     iosSimulatorArm64()
->>>>>>> Stashed changes
 
     sourceSets {
         val commonMain by getting {

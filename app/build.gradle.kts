@@ -40,9 +40,6 @@ kotlin {
 
     androidTarget()
 
-<<<<<<< Updated upstream
-    ios()
-=======
     listOf(
         iosX64(),
         iosArm64(),
@@ -53,7 +50,6 @@ kotlin {
             isStatic = true
         }
     }
->>>>>>> Stashed changes
 
     sourceSets {
         val commonMain by getting {

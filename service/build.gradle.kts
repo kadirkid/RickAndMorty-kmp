@@ -42,25 +42,6 @@ kotlin {
 
     androidTarget()
 
-<<<<<<< Updated upstream
-    ios()
-
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.apollo.runtime)
-                implementation(libs.apollo.api)
-                implementation(libs.apollo.normalizedCache)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.koin.core)
-                implementation(libs.arrow.core)
-                implementation(libs.arrow.coroutines)
-                implementation(projects.serviceApi)
-                implementation(projects.util)
-            }
-        }
-=======
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -76,7 +57,6 @@ kotlin {
         implementation(libs.arrow.coroutines)
         implementation(projects.serviceApi)
         implementation(projects.util)
->>>>>>> Stashed changes
     }
 }
 
