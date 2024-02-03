@@ -40,7 +40,20 @@ kotlin {
 
     androidTarget()
 
+<<<<<<< Updated upstream
     ios()
+=======
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "RickAndMortyApp"
+            isStatic = true
+        }
+    }
+>>>>>>> Stashed changes
 
     sourceSets {
         val commonMain by getting {

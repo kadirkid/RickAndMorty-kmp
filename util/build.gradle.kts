@@ -30,6 +30,7 @@ kotlin {
 
     androidTarget()
 
+<<<<<<< Updated upstream
     ios()
 
     sourceSets {
@@ -39,6 +40,15 @@ kotlin {
                 implementation(libs.koin.core)
             }
         }
+=======
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    sourceSets.commonMain.dependencies {
+        implementation(libs.kotlinx.coroutines.core)
+        implementation(libs.koin.core)
+>>>>>>> Stashed changes
     }
 }
 

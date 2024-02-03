@@ -32,6 +32,7 @@ kotlin {
 
     androidTarget()
 
+<<<<<<< Updated upstream
     ios()
 
     sourceSets {
@@ -42,6 +43,16 @@ kotlin {
                 implementation(libs.apollo.runtime)
             }
         }
+=======
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    sourceSets.commonMain.dependencies {
+        implementation(libs.kotlinx.datetime)
+        implementation(libs.kotlinx.serialization)
+        implementation(libs.apollo.runtime)
+>>>>>>> Stashed changes
     }
 }
 

@@ -29,6 +29,7 @@ kotlin {
 
     androidTarget()
 
+<<<<<<< Updated upstream
     ios()
 
     sourceSets {
@@ -45,6 +46,22 @@ kotlin {
                 implementation(projects.util)
             }
         }
+=======
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    sourceSets.commonMain.dependencies {
+        implementation(libs.koin.core)
+        implementation(libs.apollo.runtime)
+        implementation(libs.kotlinx.coroutines.core)
+        implementation(libs.bundles.paging)
+        implementation(libs.arrow.core)
+        implementation(projects.service)
+        implementation(projects.serviceApi)
+        implementation(projects.design)
+        implementation(projects.util)
+>>>>>>> Stashed changes
     }
 }
 

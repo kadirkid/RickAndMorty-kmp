@@ -45,7 +45,14 @@ internal class MainViewModelImpl(
     private val mainScope: CoroutineScope,
 ) : MainViewModel {
     private val pager: Pager<Int, SimpleCharacter> = Pager(
-        config = PagingConfig(pageSize = 20, initialLoadSize = 20),
+        config = PagingConfig(
+            pageSize = 20,
+            prefetchDistance = 0,
+            enablePlaceholders = false,
+            initialLoadSize = 20,
+            maxSize = 2,
+            jumpThreshold = 10,
+        ),
         initialKey = null,
         pagingSourceFactory = { CharacterListDataSource(useCase = getCharactersUseCase) },
     )

@@ -33,7 +33,7 @@ public fun initKoin(appDeclaration: KoinAppDeclaration = {}): KoinApplication = 
 }
 
 // called by iOS etc
-public fun initKoin(): KoinApplication = initKoin() {}
+public fun initKoin(): KoinApplication = initKoin {}
 
 public fun mainModule(): Module = module {
     includes(serviceModule())
