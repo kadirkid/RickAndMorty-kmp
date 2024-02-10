@@ -52,9 +52,9 @@ internal class GetCharactersUseCaseImpl(private val characterApi: CharacterApi) 
                 Result.success(
                     pagination.copy(
                         results = pagination.results.sorted(
-                            filterType
-                        )
-                    )
+                            filterType,
+                        ),
+                    ),
                 )
             },
             onFailure = { error -> Result.failure(error) },
@@ -64,7 +64,7 @@ internal class GetCharactersUseCaseImpl(private val characterApi: CharacterApi) 
     override suspend fun invoke(
         page: Int,
         filterType: CharacterSortType,
-        forceRefresh: Boolean
+        forceRefresh: Boolean,
     ): Either<Throwable, Pagination<List<SimpleCharacter>>> = characterApi
         .getAllCharacter(page)
         .map { pagination -> pagination.copy(results = pagination.results.sorted(filterType)) }

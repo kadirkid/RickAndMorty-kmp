@@ -36,10 +36,12 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    sourceSets.commonMain.dependencies {
-        implementation(libs.kotlinx.datetime)
-        implementation(libs.kotlinx.serialization)
-        implementation(libs.apollo.runtime)
+    sourceSets.commonMain {
+        dependencies {
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.serialization)
+            implementation(libs.apollo.runtime)
+        }
     }
 }
 
