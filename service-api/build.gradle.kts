@@ -32,15 +32,15 @@ kotlin {
 
     androidTarget()
 
-    ios()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.serialization)
-                implementation(libs.apollo.runtime)
-            }
+    sourceSets.commonMain {
+        dependencies {
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.serialization)
+            implementation(libs.apollo.runtime)
         }
     }
 }

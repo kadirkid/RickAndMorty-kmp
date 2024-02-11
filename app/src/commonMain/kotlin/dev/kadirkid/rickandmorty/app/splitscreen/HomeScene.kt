@@ -95,7 +95,7 @@ private fun DividedScreen(
         CharacterList(
             characters = characters,
             screenType = screenType,
-            onCharacterClicked = { selectedCharacter = it }
+            onCharacterClicked = { selectedCharacter = it },
         )
         Spacer(
             modifier = Modifier

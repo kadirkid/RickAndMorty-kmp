@@ -31,10 +31,6 @@ import dev.kadirkid.rickandmorty.service.GetCharactersUseCase
 import dev.kadirkid.rickandmorty.service.api.SimpleCharacter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 public interface MainViewModel {
     public val pagingFlow: Flow<PagingData<SimpleCharacter>>
@@ -45,7 +41,14 @@ internal class MainViewModelImpl(
     private val mainScope: CoroutineScope,
 ) : MainViewModel {
     private val pager: Pager<Int, SimpleCharacter> = Pager(
-        config = PagingConfig(pageSize = 20, initialLoadSize = 20),
+        config = PagingConfig(
+            pageSize = 20,
+            prefetchDistance = 0,
+            enablePlaceholders = false,
+            initialLoadSize = 20,
+            maxSize = 2,
+            jumpThreshold = 10,
+        ),
         initialKey = null,
         pagingSourceFactory = { CharacterListDataSource(useCase = getCharactersUseCase) },
     )
@@ -67,7 +70,7 @@ internal class MainViewModelImpl(
                 PagingSourceLoadResultPage(
                     data = data.results,
                     prevKey = data.prev,
-                    nextKey = data.next
+                    nextKey = data.next,
                 )
             } catch (e: Exception) {
                 if (e is ApolloCompositeException) {

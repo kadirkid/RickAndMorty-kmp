@@ -30,14 +30,14 @@ kotlin {
 
     androidTarget()
 
-    ios()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.koin.core)
-            }
+    sourceSets.commonMain {
+        dependencies {
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.koin.core)
         }
     }
 }

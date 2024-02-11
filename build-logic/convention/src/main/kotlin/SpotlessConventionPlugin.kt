@@ -21,6 +21,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
 
 class SpotlessConventionPlugin : Plugin<Project> {
+    private val exclusionPaths = listOf("**/spotless/**", "**/build/**", "**/.idea/**", "**/.gradle/**")
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply("com.diffplug.spotless")
@@ -28,7 +29,7 @@ class SpotlessConventionPlugin : Plugin<Project> {
             extensions.configure<SpotlessExtension> {
                 kotlin {
                     target("**/*.kt")
-                    targetExclude("${layout.buildDirectory}/**/*.kt", "**/copyright.kt", "**/build/**")
+                    targetExclude("${layout.buildDirectory}/**/*.kt", exclusionPaths)
                     ktlint(libs.findVersion("ktlint").get().toString())
                     licenseHeaderFile(rootProject.file("$rootDir/spotless/copyright.kt"))
                     trimTrailingWhitespace()
@@ -36,13 +37,13 @@ class SpotlessConventionPlugin : Plugin<Project> {
                 }
                 format("kts") {
                     target("**/*.kts")
-                    targetExclude("${layout.buildDirectory}/**/*.kts", "**/copyright.kts", "**/build/**")
+                    targetExclude("${layout.buildDirectory}/**/*.kts", exclusionPaths)
                     // Look for the first line that doesn't have a block comment (assumed to be the license)
                     licenseHeaderFile(rootProject.file("spotless/copyright.kts"), "(^(?![\\/ ]\\*).*$)")
                 }
                 format("xml") {
                     target("**/*.xml")
-                    targetExclude("**/build/**/*.xml", "**/copyright.xml", "**/build/**")
+                    targetExclude("**/${layout.buildDirectory}/**/*.xml", exclusionPaths)
                     // Look for the first XML tag that isn't a comment (<!--) or the xml declaration (<?xml)
                     licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[^!?])")
                 }

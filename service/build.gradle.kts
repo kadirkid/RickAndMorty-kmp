@@ -42,22 +42,22 @@ kotlin {
 
     androidTarget()
 
-    ios()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.apollo.runtime)
-                implementation(libs.apollo.api)
-                implementation(libs.apollo.normalizedCache)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.koin.core)
-                implementation(libs.arrow.core)
-                implementation(libs.arrow.coroutines)
-                implementation(projects.serviceApi)
-                implementation(projects.util)
-            }
+    sourceSets.commonMain {
+        dependencies {
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.apollo.runtime)
+            implementation(libs.apollo.api)
+            implementation(libs.apollo.normalizedCache)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.koin.core)
+            implementation(libs.arrow.core)
+            implementation(libs.arrow.coroutines)
+            implementation(projects.serviceApi)
+            implementation(projects.util)
         }
     }
 }
