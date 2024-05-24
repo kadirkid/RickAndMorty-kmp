@@ -2,37 +2,38 @@
 compileSdk = "34"
 minSdk = "24"
 targetSdk = "33"
-agp = "8.1.2"
+agp = "8.1.4"
 kotlin = "1.9.10"
-activity-compose = "1.7.2"
-activity-androidx = "1.7.2"
-androidx-material = "1.5.1"
+activity-compose = "1.9.0"
+activity-androidx = "1.9.0"
+androidx-material = "1.6.7"
 apollo = "3.8.2"
 coil-compose = "2.4.0"
-foundation = "1.5.1"
-core-ktx = "1.12.0"
-coroutines = "1.7.3"
+foundation = "1.6.7"
+core-ktx = "1.13.1"
+coroutines = "1.8.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
+#androidx-paging3 = "3.3.0"
 espresso-core = "3.5.1"
 appcompat = "1.6.1"
-kotlinx-datetime = "0.4.1"
-kotlinx-serialization = "1.6.0"
-ktor = "2.3.4"
-material = "1.9.0"
-compose = "1.5.1"
-lifecycle = "2.6.2"
-compose-bom = "2023.09.00"
-compose-compiler = "1.5.3"
+kotlinx-datetime = "0.5.0"
+kotlinx-serialization = "1.6.3"
+ktor = "2.3.8"
+material = "1.12.0"
+compose = "1.6.7"
+lifecycle = "2.8.0"
+compose-bom = "2024.05.00"
+compose-compiler = "1.5.14"
 compose-jb = "1.5.1"
 koin = "3.5.0"
 koinCompose = "3.4.6"
-poko = "0.15.0"
+poko = "0.15.2"
 spotless = "6.21.0"
 jvm = "17"
 jvmTarget = "11" # R8 Java 17 support pending, https://issuetracker.google.com/issues/227160052
 ktlint = "0.50.0"
-cashapp-paging = "3.3.0-alpha02-0.4.0"
+cashapp-paging = "3.3.0-alpha02-0.5.1"
 arrow = "1.2.0"
 
 [libraries]
@@ -105,6 +106,9 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
 
+#androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "androidx-paging3" }
+#androidx-paging-common-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging3" }
+
 paging-common = { module = "app.cash.paging:paging-common", version.ref = "cashapp-paging" }
 paging-common-compose = { module = "app.cash.paging:paging-compose-common", version.ref = "cashapp-paging" }
 
@@ -113,6 +117,7 @@ arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 
 [bundles]
+#androidx-paging = ["androidx-paging-common", "androidx-paging-common-compose"]
 paging = ["paging-common", "paging-common-compose"]
 
 [plugins]
