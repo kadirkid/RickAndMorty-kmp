@@ -24,9 +24,9 @@ compose {
     kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.10")
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
+
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
     explicitApi()
 
     jvm("desktop")

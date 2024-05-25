@@ -31,9 +31,9 @@ apollo {
     }
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
+
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
     explicitApi()
 
     jvm("desktop")
