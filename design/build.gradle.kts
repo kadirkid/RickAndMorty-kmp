@@ -20,8 +20,7 @@ plugins {
 }
 
 compose {
-    kotlinCompilerPlugin = dependencies.compiler.forKotlin("1.9.0")
-    kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=1.9.10")
+    kotlinCompilerPlugin.set(dependencies.compiler.forKotlin(libs.versions.kotlin.get()))
 }
 
 
